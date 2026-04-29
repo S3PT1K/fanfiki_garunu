@@ -1,0 +1,90 @@
+*{
+    font-family: 'Monotype Corsiva';
+}
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+}
+.header{
+    background-color: brown;
+    border-bottom: 10px solid;
+    border-color: rgb(92, 35, 35);
+    justify-content: center;
+    text-align: center;
+    height: 10vh;
+    display: flex;
+    flex-direction: row;
+}
+body{
+    background-color: rgb(195, 149, 80);
+}
+.image-header{
+    display: flex;
+}
+.main{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-top: 10px;
+}
+form{
+    font-size: xx-large;
+    display: flex;
+    flex-direction: column;
+    background-color: blanchedalmond;
+    padding: 40px;
+    padding-top: 0px;
+    border-radius: 20px;
+    border: 10px solid;
+    border-color: rgb(92, 35, 35);
+}
+input, button{
+    font-size: x-large;
+    width: 400px;
+}
+button, .login{
+    width: 442px;
+}
+p{
+    text-align: left;
+    margin: 5px;
+}
+.bottom{
+    text-align: center;
+}
+.login, button, input{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 20px;
+    border-radius: 10%;
+}
+.login, button{
+    background-color: brown;
+    color: white;
+}
+.main {
+    position: relative; /* Это "якорь", чтобы кнопка не улетела за пределы экрана */
+    display: flex;
+    justify-content: center;
+    padding-top: 50px; /* Даем место сверху, чтобы форма не перекрыла кнопку */
+}
+
+.back-container {
+    position: absolute; /* Кнопка вырывается из общего потока и не мешает форме */
+    top: -10px;          /* Отступ от верхнего края блока .main */
+    left: 460px;         /* Отступ от левого края */
+    width: auto;        /* Чтобы контейнер не растягивался на всю ширину */
+}
+
+.back-link {
+    background: rgba(92, 35, 35, 0.1) !important; /* Легкий фон, чтобы было видно */
+    padding: 8px 10px !important;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}

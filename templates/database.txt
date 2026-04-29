@@ -1,0 +1,43 @@
+﻿// Файл базы данных фанфиков
+// Дата: 2026-04-29 09:15:26
+
+FANFIC_START
+  {"id":1}
+  {"title":"фысфсфс"}
+  {"author":"Anonymous"}
+  {"content":"фысффсфссвамавмм"}
+  {"created_at":"2026-04-22 10:14:48"}
+FANFIC_END
+
+FANFIC_START
+  {"id":2}
+  {"title":"12312312312"}
+  {"author":"Anonymous"}
+  {"content":"12312312"}
+  {"created_at":"2026-04-22 11:30:10"}
+FANFIC_END
+
+FANFIC_START
+  {"id":3}
+  {"title":"wopyfwfg8weuihowea"}
+  {"author":"{\\"}
+  {"content":"12312313311"}
+  {"created_at":"2026-04-29 09:11:13"}
+FANFIC_END
+
+FANFIC_START
+  {"id":4}
+  {"title":"Отладка"}
+  {"author":"Debugger"}
+  {"content":"Тестовый текст"}
+  {"created_at":"2026-04-29 09:14:23"}
+FANFIC_END
+
+FANFIC_START
+  {"id":5}
+  {"title":"ytyrtytr"}
+  {"author":"{\\"}
+  {"content":"werfgtee"}
+  {"created_at":"2026-04-29 09:15:26"}
+FANFIC_END
+

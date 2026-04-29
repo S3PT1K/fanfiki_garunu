@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OurFanfics - Log In</title>
+    <link rel="stylesheet" href="../css/authorization.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="image-header"><img src="../images/11.png"></div>
+            <div class="header-title">
+                <h1>OurFanfics</h1>
+                <p>The creativity of fans prolongs the life of the characters</p>
+            </div>
+        </div>
+        <div class="main">
+            <div class="back-container">
+                <button class="back-link" onclick="window.location.href='index.html'">← Back to Main</button>
+            </div>
+
+            <form>
+                <h1>LOG IN</h1>
+                <p data-i18n="auth-nick">Nick</p>
+                <input type="text" name="nickname" placeholder="nick" required>
+                
+                <p data-i18n="auth-password">Password</p>
+                <input type="password" name="password" placeholder="password" required>
+                
+                <input type="submit" value="LOG IN" class="login">
+                
+                <p class="bottom" data-i18n="auth-no-account">No account?</p>
+                <button type="button" data-i18n="auth-register" id="to-reg">Yes, I want to register!</button>
+            </form>
+        </div>
+    </div>
+    <script src="../js_outer/api.js"></script>
+    <script src="../js_inter/main.js"></script>
+    <script src="../js_inter/authorization.js"></script>
+</body>
+</html>

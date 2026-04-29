@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OurFanfics - Profile</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/profile.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="image-header">
+                <img src="../images/11.png" alt="Logo">
+            </div>
+            <div class="header-title">
+                <h1>OurFanfics</h1>
+                <p>The creativity of fans prolongs the life of the characters</p>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="nav-panel">
+                <div class="profile-vision">
+                    <img src="../images/anonymous-profile.png" class="profile-icon" alt="User Icon">
+                    <div class="nick" data-i18n="profile-nick">Nick</div>
+                </div>
+                <div class="buttons">
+                    <button data-page="main" data-i18n="nav-main">Main</button>
+                    <button data-page="profile" data-i18n="nav-profile">Profile</button>
+                    <button data-page="create" data-i18n="nav-create">Create</button>
+                    <button data-page="saves" data-i18n="nav-saves">Saves</button>
+                    <button data-page="settings" data-i18n="nav-settings">Settings</button>
+                    <button data-page="rules" data-i18n="nav-rules">Rules</button>
+                    <button data-page="faq" data-i18n="nav-faq">FAQ</button>
+                    <button data-page="back" data-i18n="nav-back">← Back</button>
+                </div>
+            </div>
+
+            <div class="main-panel">
+                <div class="profile">
+                    <div class="nickIcon">
+                        <img src="../images/anonymous-profile.png" class="profile-avatar" alt="User Avatar">
+                        <h2 class="profile-nickname" data-i18n="profile-nick">Nick</h2>
+                    </div>
+                    
+                    <div class="stats">
+                        <div class="profile-stats">
+                            <p><span data-i18n="profile-regdate">Registration date:</span> 01.01.2024</p>
+                            <p><span data-i18n="profile-totalfanfics">Total fanfics:</span> 5</p>
+                            <p><span data-i18n="profile-totalcomments">Total comments:</span> 23</p>
+                        </div>
+                        
+                        <div class="bio-stats">
+                            <p class="profile-age">
+                                <span data-i18n="profile-age">Age:</span> —
+                            </p>
+                            <p class="profile-bio">
+                                <span data-i18n="profile-bio">Bio:</span> —
+                            </p>
+                            <p class="profile-gender">
+                                <span data-i18n="profile-gender">Gender:</span> —
+                            </p>
+                            <button class="edit-profile-btn" data-i18n="profile-change">Change</button>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="profile-fanfics-title" data-i18n="profile-myfanfics">My fanfics</h2>
+                <div class="profile-fanfics-list">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js_outer/api.js"></script>
+    <script src="../js_inter/main.js"></script>
+    <script src="../js_inter/profile.js"></script>
+</body>
+</html>

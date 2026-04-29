@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OurFanfics - Settings</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/settings.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="image-header">
+                <img src="../images/11.png" alt="Logo">
+            </div>
+            <div class="header-title">
+                <h1>OurFanfics</h1>
+                <p>The creativity of fans prolongs the life of the characters</p>
+            </div>
+        </div>
+        <div class="main">
+            <div class="nav-panel">
+                <div class="profile-vision">
+                    <img src="../images/anonymous-profile.png" class="profile-icon">
+                    <div class="nick" data-i18n="profile-nick">Nick</div>
+                </div>
+                <div class="buttons">
+                    <button data-page="main" data-i18n="nav-main">Main</button>
+                    <button data-page="profile" data-i18n="nav-profile">Profile</button>
+                    <button data-page="create" data-i18n="nav-create">Create</button>
+                    <button data-page="saves" data-i18n="nav-saves">Saves</button>
+                    <button data-page="settings" data-i18n="nav-settings">Settings</button>
+                    <button data-page="rules" data-i18n="nav-rules">Rules</button>
+                    <button data-page="faq" data-i18n="nav-faq">FAQ</button>
+                    <button data-page="back" data-i18n="nav-back">← Back</button>
+                </div>
+            </div>
+            <div class="main-panel">
+                <h2 class="settings-title-text" data-i18n="settings-title">Settings</h2>
+                <div class="settings-container">
+                    <div class="setting-item">
+                        <label data-i18n="theme-label">Theme:</label>
+                        <select id="themeSelect">
+                            <option value="light" data-i18n="theme-light">Light</option>
+                            <option value="dark" data-i18n="theme-dark">Dark</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label data-i18n="font-size-label">Font size:</label>
+                        <select id="fontSizeSelect">
+                            <option value="small" data-i18n="font-small">Small</option>
+                            <option value="medium" data-i18n="font-medium">Medium</option>
+                            <option value="large" data-i18n="font-large">Large</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="matureContentCheckbox"> 
+                            <span data-i18n="mature-content">Show mature content</span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label data-i18n="font-style-label">Font style:</label>
+                        <select id="fontStyleSelect">
+                            <option value="'Monotype Corsiva', cursive">Monotype Corsiva</option>
+                            <option value="Arial, sans-serif">Arial</option>
+                            <option value="'Times New Roman', serif">Times New Roman</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label data-i18n="language-label">Language:</label>
+                        <select id="languageSelect">
+                            <option value="en">English</option>
+                            <option value="ru">Русский</option>
+                            <option value="es">Español</option>
+                            <option value="fr">Français</option>
+                            <option value="ja">日本語</option>
+                        </select>
+                    </div>
+                    <button id="saveSettingsBtn" data-i18n="save-btn">Save Settings</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../js_outer/api.js"></script>
+    <script src="../js_inter/main.js"></script>
+    <script src="../js_inter/settings.js"></script>
+</body>
+</html>

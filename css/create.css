@@ -1,0 +1,84 @@
+/* create.css - обновленная версия */
+
+.create-title {
+    margin-left: 20px;
+}
+
+.create-form {
+    font-size: x-large;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 20px;
+    background-color: blanchedalmond;
+    padding: 20px;
+    border-radius: 10px;
+    /* Форма на всю ширину родителя */
+    width: calc(100% - 40px);
+    max-width: none;
+}
+
+.create-input {
+    width: 100%;
+    padding: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.create-select {
+    margin-left: 10px;
+    padding: 5px;
+}
+
+.categories-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.create-textarea {
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    font-size: x-large;
+}
+
+/* Увеличиваем поле для текста фанфика */
+.form-field:last-of-type .create-textarea {
+    min-height: 400px;
+    /* Большая высота */
+    height: 60vh;
+    /* 60% высоты экрана */
+    resize: vertical;
+    /* Можно менять размер по вертикали */
+}
+
+.create-submit {
+    padding: 10px;
+    background-color: brown;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.create-submit:hover {
+    background-color: #8b3a3a;
+}
+
+/* Чтобы весь контент занимал всю ширину */
+.main-panel {
+    width: 100%;
+    overflow-x: auto;
+    /* Если что-то вылезает - скролл */
+}
+
+/* Контейнер для скролла всей формы */
+.main-panel {
+    max-height: 100vh;
+    overflow-y: auto;
+}
+

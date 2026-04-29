@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OurFanfics - Registration</title>
+    <link rel="stylesheet" href="../css/registration.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="image-header"><img src="/images/11.png"></div>
+            <div class="header-title">
+                <h1>OurFanfics</h1>
+                <p>The creativity of fans prolongs the life of the characters</p>
+            </div>
+        </div>
+        <div class="main">
+            <div class="back-container">
+                <button class="back-link" onclick="window.location.href='index.html'">← Back to Main</button>
+            </div>
+
+            <form>
+                <h1>REGISTRATION</h1>
+                <p data-i18n="auth-nick">Nick</p>
+                <input type="text" name="nickname" placeholder="nick" required>
+                
+                <p data-i18n="auth-password">Password</p>
+                <input type="password" name="password" placeholder="password" required>
+                
+                <p data-i18n="auth-repeat">Repeat password</p>
+                <input type="password" name="password_repeat" placeholder="repeat password" required>
+                
+                <input type="submit" value="Register" class="reg">
+                
+                <p class="bottom" data-i18n="auth-have-account">Already have an account?</p>
+                <button type="button" data-i18n="auth-login" id="to-login">Yes, I want to log in!</button>
+            </form>
+        </div>
+    </div>
+    <script src="../js_outer/api.js"></script>
+    <script src="../js_inter/main.js"></script>
+    <script src="../js_inter/registration.js"></script>
+</body>
+</html>

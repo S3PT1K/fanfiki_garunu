@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OurFanfics - Create</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/create.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="image-header">
+                <img src="/images/11.png">
+            </div>
+            <div class="header-title">
+                <h1>OurFanfics</h1>
+                <p>The creativity of fans prolongs the life of the characters</p>
+            </div>
+        </div>
+        <div class="main">
+            <div class="nav-panel">
+                <div class="profile-vision">
+                    <img src="/images/anonymous-profile.png" class="profile-icon">
+                    <div class="nick" data-i18n="profile-nick">Nick</div>
+                </div>
+                <div class="buttons">
+                    <button data-page="main" data-i18n="nav-main">Main</button>
+                    <button data-page="profile" data-i18n="nav-profile">Profile</button>
+                    <button data-page="create" data-i18n="nav-create">Create</button>
+                    <button data-page="saves" data-i18n="nav-saves">Saves</button>
+                    <button data-page="settings" data-i18n="nav-settings">Settings</button>
+                    <button data-page="rules" data-i18n="nav-rules">Rules</button>
+                    <button data-page="faq" data-i18n="nav-faq">FAQ</button>
+                    <button data-page="back" data-i18n="nav-back">← Back</button>
+                </div>
+            </div>
+            <div class="main-panel">
+                <h2 class="create-title" data-i18n="create-title">Create new fanfic</h2>
+                <form class="create-form">
+                    <div class="form-field">
+                        <label data-i18n="create-fanficname">Fanfic name:</label>
+                        <input type="text" id="fanfic-title" class="create-input" required>
+                    </div>
+                    <div class="form-field">
+                        <label data-i18n="create-size">Size:</label>
+                        <select class="create-select">
+                            <option data-i18n="size-drabble-label">Drabble</option>
+                            <option data-i18n="size-mini-label">Mini</option>
+                            <option data-i18n="size-midi-label">Midi</option>
+                            <option data-i18n="size-maxi-label">Maxi</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label data-i18n="create-categories">Categories:</label>
+                        <div class="categories-container">
+                            <!-- Romance -->
+                            <label><input type="checkbox"> <span data-i18n="cat-romance">Romance</span></label>
+
+                            <!-- Angst -->
+                            <label><input type="checkbox"> <span data-i18n="cat-angst">Angst</span></label>
+
+                            <!-- Comedy -->
+                            <label><input type="checkbox"> <span data-i18n="cat-comedy">Comedy</span></label>
+
+                            <!-- Drama -->
+                            <label><input type="checkbox"> <span data-i18n="cat-drama">Drama</span></label>
+
+                            <!-- Hurt/Comfort -->
+                            <label><input type="checkbox"> <span
+                                    data-i18n="cat-hurt-comfort">Hurt/Comfort</span></label>
+
+                            <!-- POV -->
+                            <label><input type="checkbox"> <span data-i18n="cat-pov">POV</span></label>
+
+                            <!-- PWP -->
+                            <label><input type="checkbox"> <span data-i18n="cat-pwp">PWP</span></label>
+
+                            <!-- Dystopia -->
+                            <label><input type="checkbox"> <span data-i18n="cat-dystopia">Dystopia</span></label>
+
+                            <!-- Dark fiction -->
+                            <label><input type="checkbox"> <span data-i18n="cat-dark-fiction">Dark
+                                    fiction</span></label>
+
+                            <!-- Detective -->
+                            <label><input type="checkbox"> <span data-i18n="cat-detective">Detective</span></label>
+
+                            <!-- Friendship -->
+                            <label><input type="checkbox"> <span data-i18n="cat-friendship">Friendship</span></label>
+
+                            <!-- Curtain story -->
+                            <label><input type="checkbox"> <span data-i18n="cat-curtain-story">Curtain
+                                    story</span></label>
+
+                            <!-- Evil author -->
+                            <label><input type="checkbox"> <span data-i18n="cat-evil-author">Evil author</span></label>
+
+                            <!-- Historical epochs -->
+                            <label><input type="checkbox"> <span data-i18n="cat-historical-epochs">Historical
+                                    epochs</span></label>
+
+                            <!-- Love/Hate -->
+                            <label><input type="checkbox"> <span data-i18n="cat-love-hate">Love/Hate</span></label>
+
+                            <!-- Time travel -->
+                            <label><input type="checkbox"> <span data-i18n="cat-time-travel">Time travel</span></label>
+
+                            <!-- Omegaverse -->
+                            <label><input type="checkbox"> <span data-i18n="cat-omegaverse">Omegaverse</span></label>
+
+                            <!-- Parody -->
+                            <label><input type="checkbox"> <span data-i18n="cat-parody">Parody</span></label>
+
+                            <!-- First time -->
+                            <label><input type="checkbox"> <span data-i18n="cat-first-time">First time</span></label>
+
+                            <!-- Slice of life -->
+                            <label><input type="checkbox"> <span data-i18n="cat-slice-of-life">Slice of
+                                    life</span></label>
+
+                            <!-- Isekai -->
+                            <label><input type="checkbox"> <span data-i18n="cat-isekai">Isekai</span></label>
+
+                            <!-- Post-Apocalyptic -->
+                            <label><input type="checkbox"> <span
+                                    data-i18n="cat-post-apocalyptic">Post-Apocalyptic</span></label>
+
+                            <!-- Omitted scene -->
+                            <label><input type="checkbox"> <span data-i18n="cat-omitted-scene">Omitted
+                                    scene</span></label>
+
+                            <!-- Psychology -->
+                            <label><input type="checkbox"> <span data-i18n="cat-psychology">Psychology</span></label>
+
+                            <!-- Soulmates -->
+                            <label><input type="checkbox"> <span data-i18n="cat-soulmates">Soulmates</span></label>
+
+                            <!-- Banter -->
+                            <label><input type="checkbox"> <span data-i18n="cat-banter">Banter</span></label>
+
+                            <!-- Horror -->
+                            <label><input type="checkbox"> <span data-i18n="cat-horror">Horror</span></label>
+
+                            <!-- School life -->
+                            <label><input type="checkbox"> <span data-i18n="cat-school-life">School life</span></label>
+
+                            <!-- Sci-fi -->
+                            <label><input type="checkbox"> <span data-i18n="cat-sci-fi">Sci-fi</span></label>
+
+                            <!-- Philosophy -->
+                            <label><input type="checkbox"> <span data-i18n="cat-philosophy">Philosophy</span></label>
+
+                            <!-- Puff -->
+                            <label><input type="checkbox"> <span data-i18n="cat-puff">Puff</span></label>
+
+                            <!-- Experiment -->
+                            <label><input type="checkbox"> <span data-i18n="cat-experiment">Experiment</span></label>
+
+                            <!-- Action -->
+                            <label><input type="checkbox"> <span data-i18n="cat-action">Action</span></label>
+
+                            <!-- OOC -->
+                            <label><input type="checkbox"> <span data-i18n="cat-ooc">OOC</span></label>
+
+                            <!-- OFP -->
+                            <label><input type="checkbox"> <span data-i18n="cat-ofp">OFP</span></label>
+
+                            <!-- OMP -->
+                            <label><input type="checkbox"> <span data-i18n="cat-omp">OMP</span></label>
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label data-i18n="features">Features:</label>
+                        <div class="categories-container">
+                            <label><input type="checkbox"> <span data-i18n="POV">POV</span></label>
+                            <label><input type="checkbox"> <span data-i18n="AU">AU</span></label>
+                            <label><input type="checkbox"> <span data-i18n="Fourth-Wall">Fourth wall</span></label>
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label data-i18n="Age-ratings">Age ratings:</label>
+                        <select class="create-select">
+                            <option data-i18n="age-G-label">G</option>
+                            <option data-i18n="age-PG-13-label">PG-13</option>
+                            <option data-i18n="age-R-label">R</option>
+                            <option data-i18n="age-NC-17-label">NC-17</option>
+                            <option data-i18n="age-NC-21-label">NC-21</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label data-i18n="Status">Status:</label>
+                        <select class="create-select">
+                            <option data-i18n="Abandoned-label">Abandoned</option>
+                            <option data-i18n="Frozen-label">Frozen</option>
+                            <option data-i18n="Announced-label">Announced</option>
+                            <option data-i18n="Finished-label">Finished</option>
+                            <option data-i18n="In-Progress-label">In Progress</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label data-i18n="annotation-text">Annotation text:</label>
+                        <textarea rows="10" class="create-textarea large-textarea"></textarea>
+                    </div>
+                    <div class="form-field">
+                        <label>
+                            <input type="checkbox"> <span data-i18n="create-mature">Contains mature content (18+)</span>
+                        </label>
+                    </div>
+                    <div class="form-field">
+                        <label data-i18n="create-cover">Cover image:</label>
+                        <input type="file" accept="image/*">
+                    </div>
+                    <div class="form-field">
+                        <label data-i18n="create-text">Fanfic text:</label>
+                        <textarea id="fanfic-content" rows="10" class="create-textarea" required></textarea>
+                    </div>
+                    <button type="submit" class="create-submit" data-i18n="create-button">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <button id="debugBtn" style="background: red; color: white; padding: 10px; margin: 10px;">🐞 Отладка</button>
+<script>
+    document.getElementById('debugBtn')?.addEventListener('click', async () => {
+        const result = await createFanfic('Отладка', 'Debugger', 'Тестовый текст');
+        alert(JSON.stringify(result));
+    });
+</script>
+    <script src="/js_outer/outer.js"></script>
+    <script src="/js_inter/main.js"></script>
+    <script src="/js_inter/create.js"></script>
+    <script src="/js_inter/settings.js"></script>
+</body>
+
+</html>

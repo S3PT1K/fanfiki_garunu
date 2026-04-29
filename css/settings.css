@@ -1,0 +1,66 @@
+/* Базовые стили (вместо *) */
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(195, 149, 80);
+    transition: background-color 0.3s, color 0.3s;
+    font-family: 'Monotype Corsiva', cursive; /* Шрифт по умолчанию */
+}
+
+/* Наследование шрифтов для всех элементов ввода */
+button, select, input, textarea, span, div, h1, h2 {
+    font-family: inherit;
+}
+
+/* Контейнеры */
+.settings-container {
+    background-color: blanchedalmond;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    color: #333;
+}
+
+.setting-item {
+    margin-bottom: 20px;
+}
+
+.settings-title-text {
+    margin-left: 20px;
+}
+
+/* Кнопка по умолчанию */
+#saveSettingsBtn {
+    padding: 10px 20px;
+    background-color: brown;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+body.dark-theme {
+    background-color: #1a1a1a;
+    color: #f0f0f0;
+}
+
+body.dark-theme .settings-container {
+    background-color: #2d2d2d;
+    color: #f0f0f0;
+}
+
+body.dark-theme select, 
+body.dark-theme input {
+    background-color: #3d3d3d;
+    color: #f0f0f0;
+    border: 1px solid #555;
+}
+
+body.dark-theme #saveSettingsBtn {
+    background-color: #5c2323;
+}
+
+/* Размеры шрифтов */
+body.font-small { font-size: 16px; }
+body.font-medium { font-size: 20px; }
+body.font-large { font-size: 28px; }

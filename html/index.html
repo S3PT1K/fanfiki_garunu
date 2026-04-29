@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OurFanfics - Main</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/settings.css"> <!-- для тёмной темы -->
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="image-header">
+                <img src="/images/11.png">
+            </div>
+            <div class="header-title">
+                <h1>OurFanfics</h1>
+                <p>The creativity of fans prolongs the life of the characters</p>
+            </div>
+            <div class="LoginButton">
+                <button>Log In</button>
+            </div>
+        </div>
+        <div class="main">
+            <div class="nav-panel">
+                <div class="profile-vision">
+                    <img src="/images/anonymous-profile.png" class="profile-icon">
+                    <div class="nick" data-i18n="profile-nick">Nick</div>
+                </div>
+                <div class="buttons">
+                    <button data-page="main" data-i18n="nav-main">Main</button>
+                    <button data-page="profile" data-i18n="nav-profile">Profile</button>
+                    <button data-page="create" data-i18n="nav-create">Create</button>
+                    <button data-page="saves" data-i18n="nav-saves">Saves</button>
+                    <button data-page="settings" data-i18n="nav-settings">Settings</button>
+                    <button data-page="rules" data-i18n="nav-rules">Rules</button>
+                    <button data-page="faq" data-i18n="nav-faq">FAQ</button>
+                    <button data-page="back" data-i18n="nav-back">← Back</button>
+                </div>
+            </div>
+            <div class="main-panel">
+                <!-- Блок для отображения списка фанфиков -->
+
+<script>
+    // Функция загрузки и отображения фанфиков
+    async function displayFanfics() {
+        const container = document.getElementById('fanficsContainer');
+        if (!container) return;
+        
+        try {
+            // Проверяем, что функция getFanfics существует (из outer.js)
+            if (typeof getFanfics !== 'function') {
+                container.innerHTML = '<p>❌ Ошибка: функция getFanfics не загружена. Убедитесь, что подключен outer.js</p>';
+                return;
+            }
+            
+            const fanfics = await getFanfics();
+            
+            if (!fanfics || fanfics.length === 0) {
+                container.innerHTML = '<p>😢 Пока нет фанфиков. Создай первый на странице "Create"!</p>';
+                return;
+            }
+            
+            // Формируем HTML для каждого фанфика
+            let html = '';
+            for (let i = 0; i < fanfics.length; i++) {
+                const f = fanfics[i];
+                html += `
+                    <div style="border-bottom: 2px solid brown; padding: 15px 0; margin-bottom: 10px;">
+                        <h3 style="margin: 0 0 5px 0; color: #4a2a2a;">📌 ${escapeHtml(f.title)}</h3>
+                        <p style="margin: 5px 0; color: #666;">
+                            ✍️ <strong>Автор:</strong> ${escapeHtml(f.author)} &nbsp;|&nbsp;
+                            🕒 ${escapeHtml(f.created_at) || 'дата неизвестна'}
+                        </p>
+                        <p style="margin-top: 10px; line-height: 1.4;">
+                            ${escapeHtml(f.content ? f.content.substring(0, 300) : '')}${f.content && f.content.length > 300 ? '...' : ''}
+                        </p>
+                        ${f.content && f.content.length > 300 ? `<button onclick="alert('Полный текст фанфика:\n\n${escapeHtml(f.content)}')" style="margin-top: 8px; padding: 5px 12px; background-color: brown; color: white; border: none; border-radius: 3px; cursor: pointer;">📖 Читать полностью</button>` : ''}
+                    </div>
+                `;
+            }
+            container.innerHTML = html;
+            
+        } catch (error) {
+            console.error('Ошибка загрузки фанфиков:', error);
+            container.innerHTML = '<p>❌ Не удалось загрузить фанфики. Проверь, запущен ли сервер (localhost:8080).</p>';
+        }
+    }
+    
+    // Простая защита от XSS
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+    
+    // Загружаем фанфики при загрузке страницы
+    document.addEventListener('DOMContentLoaded', () => {
+        displayFanfics();
+    });
+</script>
+                <div class="categories">
+                    <div class="categories-list">
+                        <p data-i18n="genres">Genres</p>
+                        <div class="category-first-str">
+                            <button>Hurt/Comfort</button>
+                            <button>POV</button>
+                            <button>PWP</button>
+                            <button>Angst</button>
+                            <button>Dystopia</button>
+                            <button>Dark fiction</button>
+                            <button>Detective</button>
+                            <button>Drama</button>
+                            <button>Friendship</button>
+                        </div>
+                        <div class="category-second-str">
+                            <button>Curtain story</button>
+                            <button>Evil author</button>
+                            <button>Historical epochs</button>
+                            <button>Love/Hate</button>
+                            <button>Time travel</button>
+                            <button>Omegaverse</button>
+                            <button>Parody</button>
+                            <button>First time</button>
+                            <button>Slice of life</button>
+                        </div>
+                        <div class="category-third-str">
+                            <button>Isekai</button>
+                            <button>Post-Apocalyptic</button>
+                            <button>Omitted scene</button>
+                            <button>Psychology</button>
+                            <button>Romance</button>
+                            <button>Soulmates</button>
+                            <button>Banter</button>
+                            <button>Horror</button>
+                            <button>School life</button>
+                        </div>
+                        <div class="category-fourth-str">
+                            <button>Sci-fi</button>
+                            <button>Philosophy</button>
+                            <button>Puff</button>
+                            <button>Experiment</button>
+                            <button>Action</button>
+                            <button>Comedy</button>
+                            <button>OOC</button>
+                            <button>OFP</button>
+                            <button>OMP</button>
+                        </div>
+                        <p data-i18n="sizes">Sizes</p>
+                        <div class="category-sizes">
+                            <button>Drabble</button>
+                            <button>Mini</button>
+                            <button>Midi</button>
+                            <button>Maxi</button>
+                        </div>
+                        <p data-i18n="features">Features</p>
+                        <div class="category-features">
+                            <button>POV</button>
+                            <button>AU</button>
+                            <button>Fourth wall</button>
+                        </div>
+                        <p data-i18n="age-ratings">Age ratings</p>
+                        <div class="category-age-ratings">
+                            <button>G</button>
+                            <button>PG-13</button>
+                            <button>R</button>
+                            <button>NC-17</button>
+                            <button>NC-21</button>
+                        </div>
+                    </div>
+                    <div class="categories-list-two">
+                        <div class="category-two">
+                            <p data-i18n="status">Status</p>
+                            <div class="status">
+                                <button>Abandoned</button>
+                                <button>Frozen</button>
+                                <button>Announced</button>
+                                <button>Finished</button>
+                                <button>In progress</button>
+                            </div>
+                            <p data-i18n="date">Date</p>
+                            <div class="date">
+                                <button>This Day</button>
+                                <button>This week</button>
+                                <button>This month</button>
+                                <button>This year</button>
+                            </div>
+                        </div>
+                        <div class="search">
+                            <div class="search-panel">
+                                <input type="search" data-i18n-placeholder="search-placeholder" placeholder="search.." class="search-placeholder">
+                                <button class="search-button">🔍</button>
+                            </div>
+                            <div class="search-method">
+                                <select>
+                                    <option>Name</option>
+                                    <option>Character</option>
+                                    <option>Author</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="fanficsSection" style="background-color: blanchedalmond; margin: 20px; padding: 20px; border-radius: 10px;">
+    <h3 data-i18n="fanfics-title">📖 Все фанфики</h3>
+    <div id="fanficsContainer">Загрузка...</div>
+    </div>
+    </div>
+    <script src="/js_outer/outer.js"></script>
+    <script src="/js_inter/main.js"></script>
+    <script src="/js_inter/settings.js"></script>
+    
+</body>
+</html>

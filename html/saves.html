@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OurFanfics - Saves</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/saves.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="image-header">
+                <img src="../images/11.png" alt="Logo">
+            </div>
+            <div class="header-title">
+                <h1>OurFanfics</h1>
+                <p>The creativity of fans prolongs the life of the characters</p>
+            </div>
+        </div>
+        <div class="main">
+            <div class="nav-panel">
+                <div class="profile-vision">
+                    <img src="../images/anonymous-profile.png" class="profile-icon" alt="Profile">
+                    <div class="nick" data-i18n="profile-nick">Nick</div>
+                </div>
+                <div class="buttons">
+                    <button data-page="main" data-i18n="nav-main">Main</button>
+                    <button data-page="profile" data-i18n="nav-profile">Profile</button>
+                    <button data-page="create" data-i18n="nav-create">Create</button>
+                    <button data-page="saves" data-i18n="nav-saves">Saves</button>
+                    <button data-page="settings" data-i18n="nav-settings">Settings</button>
+                    <button data-page="rules" data-i18n="nav-rules">Rules</button>
+                    <button data-page="faq" data-i18n="nav-faq">FAQ</button>
+                    <button data-page="back" data-i18n="nav-back">← Back</button>
+                </div>
+            </div>
+            <div class="main-panel">
+                <h2 class="saves-title" data-i18n="saves-title">Saved fanfics</h2>
+                <div class="saves-list">
+                    <div class="saves-item">
+                        <h3>Saved fanfic 1</h3>
+                        <p><span data-i18n="saves-author">Author:</span> AuthorName</p>
+                        <p data-i18n="saves-desc">Brief description...</p>
+                        <div class="saves-buttons">
+                            <button class="saves-read-btn" data-i18n="saves-read">Read</button>
+                            <button class="saves-remove-btn" data-i18n="saves-remove">Remove from saves</button>
+                        </div>
+                    </div>
+                    
+                    <div class="saves-item">
+                        <h3>Saved fanfic 2</h3>
+                        <p><span data-i18n="saves-author">Author:</span> AuthorName</p>
+                        <p data-i18n="saves-desc">Brief description...</p>
+                        <div class="saves-buttons">
+                            <button class="saves-read-btn" data-i18n="saves-read">Read</button>
+                            <button class="saves-remove-btn" data-i18n="saves-remove">Remove from saves</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js_outer/api.js"></script>
+    <script src="../js_inter/main.js"></script>
+    <script src="../js_inter/saves.js"></script>
+</body>
+</html>

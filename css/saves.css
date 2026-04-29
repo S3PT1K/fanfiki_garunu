@@ -1,0 +1,80 @@
+.saves-title {
+    margin-left: 20px;
+}
+
+.saves-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 20px;
+}
+
+.saves-item {
+    background-color: rgb(133, 109, 73); /* Коричневый в светлой теме */
+    padding: 15px;
+    border-radius: 8px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.saves-item h3 {
+    margin: 0 0 10px 0;
+}
+
+.saves-item p {
+    margin: 8px 0;
+}
+
+.saves-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.saves-read-btn {
+    padding: 5px 10px;
+    background-color: brown;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.saves-remove-btn {
+    padding: 5px 10px;
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+/* --- ТЕМНАЯ ТЕМА (СЕРЫЙ ЦВЕТ САЙТА) --- */
+
+body.dark-theme .saves-title {
+    color: #f0f0f0;
+}
+
+body.dark-theme .saves-item {
+    background-color: #2d2d2d; /* Темно-серый */
+    color: #cccccc;
+    border: 1px solid #444;
+}
+
+body.dark-theme .saves-item h3 {
+    color: #ffffff;
+}
+
+body.dark-theme .saves-read-btn {
+    background-color: #555; /* Серые кнопки вместо коричневых */
+    color: #fff;
+}
+
+body.dark-theme .saves-remove-btn {
+    background-color: #444; /* Серые кнопки вместо красных */
+    border: 1px solid #666;
+}
+
+body.dark-theme .saves-read-btn:hover,
+body.dark-theme .saves-remove-btn:hover {
+    background-color: #666;
+}
