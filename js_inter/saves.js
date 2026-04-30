@@ -26,7 +26,7 @@ window.translations = {
         "nav-main": "Главная",
         "nav-profile": "Профиль",
         "nav-create": "Создать",
-        "nav-saves": "Закладки",
+        "nav-saves": "Сохраннено",
         "nav-settings": "Настройки",
         "nav-rules": "Правила",
         "nav-faq": "FAQ",

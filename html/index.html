@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OurFanfics - Main</title>
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/settings.css"> <!-- для тёмной темы -->
+    <link rel="stylesheet" href="/css/settings.css">
 </head>
 
 <body>
@@ -43,13 +43,18 @@
                 <!-- Блок для отображения списка фанфиков -->
 
 <script>
+    // Функция для перехода на страницу фанфика
+    function goToFanfic(fanficId, fanficTitle) {
+        const encodedTitle = encodeURIComponent(fanficTitle);
+        window.location.href = `asss.html?id=${fanficId}`;
+    }
+
     // Функция загрузки и отображения фанфиков
     async function displayFanfics() {
         const container = document.getElementById('fanficsContainer');
         if (!container) return;
         
         try {
-            // Проверяем, что функция getFanfics существует (из outer.js)
             if (typeof getFanfics !== 'function') {
                 container.innerHTML = '<p>❌ Ошибка: функция getFanfics не загружена. Убедитесь, что подключен outer.js</p>';
                 return;
@@ -62,21 +67,31 @@
                 return;
             }
             
-            // Формируем HTML для каждого фанфика
             let html = '';
             for (let i = 0; i < fanfics.length; i++) {
                 const f = fanfics[i];
+                const fanficId = f.id || i;
                 html += `
-                    <div style="border-bottom: 2px solid brown; padding: 15px 0; margin-bottom: 10px;">
-                        <h3 style="margin: 0 0 5px 0; color: #4a2a2a;">📌 ${escapeHtml(f.title)}</h3>
-                        <p style="margin: 5px 0; color: #666;">
-                            ✍️ <strong>Автор:</strong> ${escapeHtml(f.author)} &nbsp;|&nbsp;
-                            🕒 ${escapeHtml(f.created_at) || 'дата неизвестна'}
-                        </p>
-                        <p style="margin-top: 10px; line-height: 1.4;">
-                            ${escapeHtml(f.content ? f.content.substring(0, 300) : '')}${f.content && f.content.length > 300 ? '...' : ''}
-                        </p>
-                        ${f.content && f.content.length > 300 ? `<button onclick="alert('Полный текст фанфика:\n\n${escapeHtml(f.content)}')" style="margin-top: 8px; padding: 5px 12px; background-color: brown; color: white; border: none; border-radius: 3px; cursor: pointer;">📖 Читать полностью</button>` : ''}
+                    <div class="fanfic-item" style="border-bottom: 2px solid brown; padding: 15px 0; margin-bottom: 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+                            <div style="flex: 1;">
+                                <h3 style="margin: 0 0 5px 0; color: #4a2a2a;">📌 ${escapeHtml(f.title)}</h3>
+                                <p style="margin: 5px 0; color: #666;">
+                                    ✍️ <strong>Автор:</strong> ${escapeHtml(f.author)} &nbsp;|&nbsp;
+                                    🕒 ${escapeHtml(f.created_at) || 'дата неизвестна'}
+                                </p>
+                                <p style="margin-top: 10px; line-height: 1.4;">
+                                    ${escapeHtml(f.content ? f.content.substring(0, 25) : '')}${f.content && f.content.length > 50 ? '...' : ''}
+                                </p>
+                            </div>
+                            <div style="margin-left: 15px;">
+                                <button onclick="goToFanfic(${fanficId}, '${escapeHtml(f.title).replace(/'/g, "\\'")}')" 
+                                        style="padding: 8px 20px; background-color: #4a2a2a; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+                                    📖 Читать фанфик
+                                </button>
+                            </div>
+                        </div>
+                        ${f.content && f.content.length > 300 ? `<button onclick="alert('Полный текст фанфика:\n\n${escapeHtml(f.content)}')" style="margin-top: 8px; padding: 5px 12px; background-color: brown; color: white; border: none; border-radius: 3px; cursor: pointer;">📖 Быстрый просмотр</button>` : ''}
                     </div>
                 `;
             }
@@ -88,7 +103,6 @@
         }
     }
     
-    // Простая защита от XSS
     function escapeHtml(str) {
         if (!str) return '';
         return str
@@ -99,7 +113,6 @@
             .replace(/'/g, '&#39;');
     }
     
-    // Загружаем фанфики при загрузке страницы
     document.addEventListener('DOMContentLoaded', () => {
         displayFanfics();
     });
@@ -209,13 +222,14 @@
             </div>
         </div>
         <div id="fanficsSection" style="background-color: blanchedalmond; margin: 20px; padding: 20px; border-radius: 10px;">
-    <h3 data-i18n="fanfics-title">📖 Все фанфики</h3>
-    <div id="fanficsContainer">Загрузка...</div>
-    </div>
+            <h3 data-i18n="fanfics-title">📖 Все фанфики</h3>
+            <div id="fanficsContainer">Загрузка...</div>
+        </div>
+        
+        <div style="display: none;" id="routeInfo"></div>
     </div>
     <script src="/js_outer/outer.js"></script>
     <script src="/js_inter/main.js"></script>
     <script src="/js_inter/settings.js"></script>
-    
 </body>
 </html>

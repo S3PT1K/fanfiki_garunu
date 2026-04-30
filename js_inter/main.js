@@ -186,3 +186,143 @@
         });
     });
 })();
+// main.js (дополнение или замена существующего кода)
+
+let allFanfics = []; // здесь будем хранить все загруженные фанфики
+
+// Основная функция загрузки и отображения (расширенная)
+async function loadAndDisplayFanfics() {
+    const container = document.getElementById('fanficsContainer');
+    if (!container) return;
+    try {
+        allFanfics = await getFanfics(); // получаем массив из outer.js
+        if (!allFanfics || allFanfics.length === 0) {
+            container.innerHTML = '<p>😢 Пока нет фанфиков. Создай первый на странице "Create"!</p>';
+            return;
+        }
+        renderFanfics(allFanfics); // отрисовываем все
+    } catch (error) {
+        console.error('Ошибка загрузки фанфиков:', error);
+        container.innerHTML = '<p>❌ Не удалось загрузить фанфики. Проверь, запущен ли сервер (localhost:8080).</p>';
+    }
+}
+
+// Функция отрисовки массива фанфиков в контейнере
+function renderFanfics(fanficsArray) {
+    const container = document.getElementById('fanficsContainer');
+    if (!container) return;
+
+    if (!fanficsArray || fanficsArray.length === 0) {
+        container.innerHTML = '<p>🔍 Ничего не найдено по вашему запросу.</p>';
+        return;
+    }
+
+    let html = '';
+    fanficsArray.forEach((f, index) => {
+        const fanficId = f.id || index;
+        html += `
+            <div class="fanfic-item" style="border-bottom: 2px solid brown; padding: 15px 0; margin-bottom: 10px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+                    <div style="flex: 1;">
+                        <h3 style="margin: 0 0 5px 0; color: #4a2a2a;">📌 ${escapeHtml(f.title)}</h3>
+                        <p style="margin: 5px 0; color: #666;">
+                            ✍️ <strong>Автор:</strong> ${escapeHtml(f.author)} &nbsp;|&nbsp;
+                            🕒 ${escapeHtml(f.created_at) || 'дата неизвестна'}
+                        </p>
+                        <p style="margin-top: 10px; line-height: 1.4;">
+                            ${escapeHtml(f.content ? f.content.substring(0, 50) : '')}${f.content && f.content.length > 50 ? '...' : ''}
+                        </p>
+                    </div>
+                    <div style="margin-left: 15px;">
+                        <button onclick="goToFanfic(${fanficId}, '${escapeHtml(f.title).replace(/'/g, "\\'")}')" 
+                                style="padding: 8px 20px; background-color: #4a2a2a; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+                            📖 Читать фанфик
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    container.innerHTML = html;
+}
+
+// Функция поиска (вызывается по кнопке или Enter)
+function performSearch() {
+    const searchInput = document.querySelector('.search-placeholder');
+    const searchMethod = document.querySelector('.search-method select');
+    if (!searchInput || !searchMethod) return;
+
+    const query = searchInput.value.trim().toLowerCase();
+    const method = searchMethod.value; // "Name", "Character" или "Author"
+
+    if (!allFanfics.length) {
+        alert('Фанфики ещё не загружены. Попробуйте позже.');
+        return;
+    }
+
+    const filtered = allFanfics.filter(fanfic => {
+        if (!query) return true; // если поле пустое, показываем всё
+
+        let fieldValue = '';
+        if (method === 'Name') {
+            fieldValue = (fanfic.title || '').toLowerCase();
+        } else if (method === 'Author') {
+            fieldValue = (fanfic.author || '').toLowerCase();
+        } else if (method === 'Character') {
+            // Предполагаем, что в объекте fanfic есть поле characters (строка или массив)
+            const chars = fanfic.characters || '';
+            fieldValue = Array.isArray(chars) ? chars.join(' ').toLowerCase() : chars.toLowerCase();
+        }
+        return fieldValue.includes(query);
+    });
+
+    renderFanfics(filtered);
+}
+
+// Вспомогательная функция экранирования HTML
+function escapeHtml(str) {
+    if (!str) return '';
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+// Функция перехода на страницу фанфика (уже есть, но продублируем для надёжности)
+function goToFanfic(fanficId, fanficTitle) {
+    window.location.href = `asss.html?id=${fanficId}`;
+}
+
+// Вешаем обработчики после загрузки DOM
+document.addEventListener('DOMContentLoaded', () => {
+    // Загружаем и показываем фанфики
+    loadAndDisplayFanfics();
+
+    // Назначаем обработчик на кнопку поиска
+    const searchButton = document.querySelector('.search-button');
+    if (searchButton) {
+        searchButton.addEventListener('click', performSearch);
+    }
+
+    // Поиск по нажатию Enter в поле ввода
+    const searchInputField = document.querySelector('.search-placeholder');
+    if (searchInputField) {
+        searchInputField.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                performSearch();
+            }
+        });
+    }
+
+    // Опционально: сброс поиска при очистке поля (показываем всё)
+    if (searchInputField) {
+        searchInputField.addEventListener('input', (e) => {
+            if (e.target.value.trim() === '') {
+                renderFanfics(allFanfics);
+            }
+        });
+    }
+});

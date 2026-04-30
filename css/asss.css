@@ -1,0 +1,106 @@
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Основные контейнеры */
+        .container, .main-panel, .reading-mode, .fanfic-item, .fanfic-content {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Принудительный перенос для всех текстовых блоков */
+        .fanfic-content,
+        .fanfic-item p,
+        .fanfic-full-title h2,
+        .fanfic-meta,
+        .reading-mode div,
+        .reading-mode p,
+        .reading-mode h2,
+        .reading-mode h3,
+        #dynamicContent * {
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
+            white-space: normal;
+        }
+
+        /* Специально для длинных ссылок или неразрывных строк */
+        .fanfic-content a,
+        .fanfic-item a {
+            word-break: break-all;
+        }
+
+        /* Адаптация под мобильные экраны */
+        @media (max-width: 768px) {
+            .reading-mode {
+                padding: 15px;
+                margin: 10px;
+            }
+            .fanfic-full-title {
+                padding-left: 12px;
+            }
+            .fanfic-content {
+                font-size: 0.98rem;
+                line-height: 1.5;
+            }
+            .fanfic-item div[style*="display: flex"] {
+                flex-direction: column;
+            }
+            .fanfic-item button {
+                margin-top: 10px;
+                width: 100%;
+            }
+        }
+
+        /* Остальные оригинальные стили (сохранены и улучшены) */
+        .reading-mode {
+            background: #85714a;
+            border-radius: 20px;
+            padding: 25px;
+            margin: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .fanfic-full-title {
+            color: #4a2a2a;
+            border-left: 6px solid #a0522d;
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+        .fanfic-meta {
+            color: #6b4e4e;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        .fanfic-content {
+            line-height: 1.6;
+            font-size: 1.05rem;
+            font-family: 'Georgia', serif;
+        }
+        .back-button {
+            background: #8b5a2b;
+            color: rgb(177, 103, 103);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .back-button:hover {
+            background: #5a3a1a;
+        }
+        /* Для элементов списка фанфиков */
+        .fanfic-item {
+            border-bottom: 2px solid brown;
+            padding: 15px 0;
+            margin-bottom: 10px;
+        }
+        .fanfic-item h3 {
+            margin: 0 0 5px 0;
+            color: #4a2a2a;
+        }
+        .fanfic-item p {
+            margin: 5px 0;
+            color: #666;
+        }
