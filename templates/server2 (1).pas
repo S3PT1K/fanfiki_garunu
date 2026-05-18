@@ -303,20 +303,36 @@ end;
 
 procedure HandleRegister(context: HttpListenerContext);
 var
-  RequestBody: string;
-  u: User;
+    RequestBody: string;
+    u: User;
+    exists: boolean;
 begin
-  var reader := new System.IO.StreamReader(context.Request.InputStream, Encoding.UTF8);
-  RequestBody := reader.ReadToEnd();
-  
-  u.nickname := ExtractJsonValue(RequestBody, 'nickname');
-  u.password := ExtractJsonValue(RequestBody, 'password');
-  u.registered_at := DateTime.Now.ToString('yyyy-MM-dd HH:mm:ss');
-  
-  users.Add(u);
-  SaveUsers();
-  
-  SendJsonResponse(context, '{"status":"success"}', 201);
+    var reader := new System.IO.StreamReader(context.Request.InputStream, Encoding.UTF8);
+    RequestBody := reader.ReadToEnd();
+    u.nickname := ExtractJsonValue(RequestBody, 'nickname');
+    u.password := ExtractJsonValue(RequestBody, 'password');
+    u.registered_at := DateTime.Now.ToString('yyyy-MM-dd HH:mm:ss');
+
+    exists := false;
+    foreach var existingUser in users do
+        if existingUser.nickname = u.nickname then
+        begin
+            exists := true;
+            break;
+        end;
+
+    if exists then
+    begin
+        SendJsonResponse(context,
+            '{"status":"error","message":"Пользователь с таким никнеймом уже существует"}',
+            409);
+        Exit;
+    end;
+    // ─────────────────────────────────────────────────
+
+    users.Add(u);
+    SaveUsers();
+    SendJsonResponse(context, '{"status":"success"}', 201);
 end;
 
 // ========== ОСНОВНАЯ ПРОГРАММА ==========
