@@ -387,26 +387,54 @@ window.translations = {
     }
 };
 
-
-
 document.addEventListener('DOMContentLoaded', () => {
     const createForm = document.querySelector('.create-form');
 
-    if (!createForm) {
-        return;
-    }
+    if (!createForm) return;
 
     createForm.addEventListener('submit', async (event) => {
         event.preventDefault();
+
         const title = document.getElementById('fanfic-title').value;
         const content = document.getElementById('fanfic-content').value;
-        const author = getCurrentUser() || 'Anonymous'; 
-        const result = await createFanfic(title, author, content);
+        const author = getCurrentUser() || 'Anonymous';
+
+        // Size
+        const sizeSelect = createForm.querySelectorAll('.create-select')[0];
+        const size = sizeSelect ? sizeSelect.value : '';
+
+        // Categories (все отмеченные чекбоксы из первого .categories-container)
+        const categoryContainers = createForm.querySelectorAll('.categories-container');
+        const categoryCheckboxes = categoryContainers[0]
+            ? categoryContainers[0].querySelectorAll('input[type="checkbox"]:checked')
+            : [];
+        const categories = Array.from(categoryCheckboxes)
+            .map(cb => cb.closest('label').querySelector('span').textContent.trim())
+            .join(', ');
+
+        // Features (второй .categories-container)
+        const featureCheckboxes = categoryContainers[1]
+            ? categoryContainers[1].querySelectorAll('input[type="checkbox"]:checked')
+            : [];
+        const features = Array.from(featureCheckboxes)
+            .map(cb => cb.closest('label').querySelector('span').textContent.trim())
+            .join(', ');
+
+        // Age rating
+        const ratingSelect = createForm.querySelectorAll('.create-select')[1];
+        const rating = ratingSelect ? ratingSelect.value : '';
+
+        // Status
+        const statusSelect = createForm.querySelectorAll('.create-select')[2];
+        const status = statusSelect ? statusSelect.value : '';
+
+        const result = await createFanfic(title, author, content, size, categories, features, rating, status);
+
         if (result && result.status === 'success') {
             alert('Фанфик успешно создан!');
             window.location.href = 'index.html';
         } else {
-            alert('Ошибка при создании фанфика: ' + (result.message || 'Неизвестная ошибка'));
+            alert('Ошибка при создании фанфика: ' + (result?.message || 'Неизвестная ошибка'));
         }
     });
 });

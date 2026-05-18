@@ -1,0 +1,52 @@
+﻿FANFIC_START
+  {"id":1}
+  {"title":"dfgdfdfgd"}
+  {"author":"Anonymous"}
+  {"size":""}
+  {"categories":""}
+  {"features":""}
+  {"rating":""}
+  {"status":""}
+  {"content":""}
+  {"created_at":""}
+FANFIC_END
+
+FANFIC_START
+  {"id":2}
+  {"title":"kok"}
+  {"author":"Anonymous"}
+  {"size":""}
+  {"categories":""}
+  {"features":""}
+  {"rating":""}
+  {"status":""}
+  {"content":"kok"}
+  {"created_at":"2026-05-15 13:56:29"}
+FANFIC_END
+
+FANFIC_START
+  {"id":3}
+  {"title":"авываыв"}
+  {"author":"Anonymous"}
+  {"size":"Миди"}
+  {"categories":"Романтика, Hurt/Comfort, Тёмное произведение, Занавесочная история"}
+  {"features":"POV"}
+  {"rating":"PG-13"}
+  {"status":"Заморожен"}
+  {"content":"аываывваывыаыва"}
+  {"created_at":"2026-05-15 17:16:32"}
+FANFIC_END
+
+FANFIC_START
+  {"id":4}
+  {"title":"8323ит"}
+  {"author":"Anonymous"}
+  {"size":"Макси"}
+  {"categories":"Исторические эпохи, Научная фантастика, OMP"}
+  {"features":"POV, AU, Четвёртая стена"}
+  {"rating":"NC-17"}
+  {"status":"Завершён"}
+  {"content":"кеннкекнуенкенке"}
+  {"created_at":"2026-05-15 17:20:00"}
+FANFIC_END
+

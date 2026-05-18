@@ -72,3 +72,16 @@ function isLoggedIn() {
 function getCurrentUser() {
     return currentUser;
 }
+// Создать фанфик
+async function createFanfic(title, author, content, size = '', categories = '', features = '', rating = '', status = '') {
+    return await apiRequest('/fanfics', 'POST', {
+        title,
+        author,
+        content,
+        size,
+        categories,
+        features,
+        rating,
+        status
+    });
+}

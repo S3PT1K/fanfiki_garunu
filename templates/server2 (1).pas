@@ -8,7 +8,9 @@ uses
 
 var
   server: HttpListener;
-  DataFile: string = 'database.txt';
+  // Файлы базы данных
+  FanficsFile: string = 'fanfics.txt';
+  UsersFile: string = 'users.txt';
 
 // ========== СТРУКТУРЫ ДАННЫХ ==========
 
@@ -18,6 +20,11 @@ type
     title: string;
     author: string;
     content: string;
+    size: string;         // Размер (Drabble, etc.)
+    categories: string;   // Категории
+    features: string;     // Особенности
+    rating: string;       // Рейтинг
+    status: string;       // Статус
     created_at: string;
   end;
   
@@ -36,7 +43,8 @@ var
 
 function IsStopChar(ch: char): boolean;
 begin
-  Result := (ch = '"') or (ch = ',') or (ch = '}');
+  // Запятую убрали из стоп-символов, чтобы можно было сохранять списки категорий через запятую
+  Result := (ch = '"') or (ch = '}');
 end;
 
 function SafeStrToInt(s: string): integer;
@@ -50,11 +58,11 @@ end;
 
 function ExtractJsonValue(line: string; key: string): string;
 var
-  searchKey1: string;
-  searchKey2: string;
-  pos1: integer;
-  pos2: integer;
+  searchKey1, searchKey2: string;
+  pos1, pos2: integer;
 begin
+  if line = nil then begin Result := ''; Exit; end;
+  
   searchKey1 := '"' + key + '":"';
   searchKey2 := '"' + key + '":';
   
@@ -81,137 +89,124 @@ begin
 end;
 
 function EscapeJson(s: string): string;
-var
-  i: integer;
 begin
-  Result := '';
-  i := 1;
-  while i <= Length(s) do
-  begin
-    if s[i] = '"' then
-      Result := Result + '\"'
-    else if s[i] = '\' then
-      Result := Result + '\\'
-    else if s[i] = #10 then
-      Result := Result + '\n'
-    else if s[i] = #13 then
-      Result := Result + '\r'
-    else
-      Result := Result + s[i];
-    i := i + 1;
-  end;
+  if s = nil then begin Result := ''; Exit; end;
+  Result := s.Replace('\', '\\').Replace('"', '\"').Replace(#10, '\n').Replace(#13, '\r');
 end;
 
-// ========== РАБОТА С ФАЙЛОВОЙ БАЗОЙ ДАННЫХ ==========
+// ========== РАБОТА С ФАЙЛАМИ ==========
 
-procedure LoadData();
+procedure LoadFanfics();
 var
   FileContent: string;
   lines: array of string;
   i: integer;
   f: Fanfic;
-  u: User;
 begin
   fanfics := new List<Fanfic>;
-  users := new List<User>;
   nextId := 1;
   
-  if not FileExists(DataFile) then
-    Exit;
+  if not FileExists(FanficsFile) then Exit;
   
-  FileContent := System.IO.File.ReadAllText(DataFile, Encoding.UTF8);
+  FileContent := System.IO.File.ReadAllText(FanficsFile, Encoding.UTF8);
   lines := FileContent.Split(#10);
   
   i := 0;
   while i < Length(lines) do
   begin
-    if Pos('FANFIC_START', lines[i]) > 0 then
+    var currentLine := lines[i].Trim().Replace(#13, '');
+    if currentLine = 'FANFIC_START' then
     begin
-      i := i + 1;
-      if i < Length(lines) then
-        f.id := SafeStrToInt(ExtractJsonValue(lines[i], 'id'));
-      i := i + 1;
-      if i < Length(lines) then
-        f.title := ExtractJsonValue(lines[i], 'title');
-      i := i + 1;
-      if i < Length(lines) then
-        f.author := ExtractJsonValue(lines[i], 'author');
-      i := i + 1;
-      if i < Length(lines) then
-        f.content := ExtractJsonValue(lines[i], 'content');
-      i := i + 1;
-      if i < Length(lines) then
-        f.created_at := ExtractJsonValue(lines[i], 'created_at');
+      // Читаем поля с проверкой границ массива (защита от ошибки индекса)
+      if i + 1 < Length(lines) then f.id := SafeStrToInt(ExtractJsonValue(lines[i+1], 'id'));
+      if i + 2 < Length(lines) then f.title := ExtractJsonValue(lines[i+2], 'title');
+      if i + 3 < Length(lines) then f.author := ExtractJsonValue(lines[i+3], 'author');
+      if i + 4 < Length(lines) then f.size := ExtractJsonValue(lines[i+4], 'size');
+      if i + 5 < Length(lines) then f.categories := ExtractJsonValue(lines[i+5], 'categories');
+      if i + 6 < Length(lines) then f.features := ExtractJsonValue(lines[i+6], 'features');
+      if i + 7 < Length(lines) then f.rating := ExtractJsonValue(lines[i+7], 'rating');
+      if i + 8 < Length(lines) then f.status := ExtractJsonValue(lines[i+8], 'status');
+      if i + 9 < Length(lines) then f.content := ExtractJsonValue(lines[i+9], 'content');
+      if i + 10 < Length(lines) then f.created_at := ExtractJsonValue(lines[i+10], 'created_at');
       
       fanfics.Add(f);
-      if f.id >= nextId then
-        nextId := f.id + 1;
-    end;
-    
-    if Pos('USER_START', lines[i]) > 0 then
-    begin
+      if f.id >= nextId then nextId := f.id + 1;
+      i := i + 11; 
+    end
+    else
       i := i + 1;
-      if i < Length(lines) then
-        u.nickname := ExtractJsonValue(lines[i], 'nickname');
-      i := i + 1;
-      if i < Length(lines) then
-        u.password := ExtractJsonValue(lines[i], 'password');
-      i := i + 1;
-      if i < Length(lines) then
-        u.registered_at := ExtractJsonValue(lines[i], 'registered_at');
-      
-      users.Add(u);
-    end;
-    
-    i := i + 1;
   end;
-  
-  writeln('📂 Загружено фанфиков: ', fanfics.Count);
-  writeln('📂 Загружено пользователей: ', users.Count);
 end;
 
-procedure SaveData();
+procedure SaveFanfics();
 var
   sb: StringBuilder;
-  f: Fanfic;
-  u: User;
-  idx: integer;
 begin
   sb := new StringBuilder;
-  sb.AppendLine('// Файл базы данных фанфиков');
-  sb.AppendLine('// Дата: ' + DateTime.Now.ToString('yyyy-MM-dd HH:mm:ss'));
-  sb.AppendLine('');
-  
-  idx := 0;
-  while idx < fanfics.Count do
+  foreach var f in fanfics do
   begin
-    f := fanfics[idx];
     sb.AppendLine('FANFIC_START');
     sb.AppendLine('  {"id":' + IntToStr(f.id) + '}');
     sb.AppendLine('  {"title":"' + EscapeJson(f.title) + '"}');
     sb.AppendLine('  {"author":"' + EscapeJson(f.author) + '"}');
+    sb.AppendLine('  {"size":"' + EscapeJson(f.size) + '"}');
+    sb.AppendLine('  {"categories":"' + EscapeJson(f.categories) + '"}');
+    sb.AppendLine('  {"features":"' + EscapeJson(f.features) + '"}');
+    sb.AppendLine('  {"rating":"' + EscapeJson(f.rating) + '"}');
+    sb.AppendLine('  {"status":"' + EscapeJson(f.status) + '"}');
     sb.AppendLine('  {"content":"' + EscapeJson(f.content) + '"}');
     sb.AppendLine('  {"created_at":"' + f.created_at + '"}');
     sb.AppendLine('FANFIC_END');
     sb.AppendLine('');
-    idx := idx + 1;
   end;
+  System.IO.File.WriteAllText(FanficsFile, sb.ToString, Encoding.UTF8);
+end;
+
+procedure LoadUsers();
+var
+  FileContent: string;
+  lines: array of string;
+  i: integer;
+  u: User;
+begin
+  users := new List<User>;
+  if not FileExists(UsersFile) then Exit;
   
-  idx := 0;
-  while idx < users.Count do
+  FileContent := System.IO.File.ReadAllText(UsersFile, Encoding.UTF8);
+  lines := FileContent.Split(#10);
+  
+  i := 0;
+  while i < Length(lines) do
   begin
-    u := users[idx];
+    var currentLine := lines[i].Trim().Replace(#13, '');
+    if currentLine = 'USER_START' then
+    begin
+      if i + 1 < Length(lines) then u.nickname := ExtractJsonValue(lines[i+1], 'nickname');
+      if i + 2 < Length(lines) then u.password := ExtractJsonValue(lines[i+2], 'password');
+      if i + 3 < Length(lines) then u.registered_at := ExtractJsonValue(lines[i+3], 'registered_at');
+      users.Add(u);
+      i := i + 4;
+    end
+    else
+      i := i + 1;
+  end;
+end;
+
+procedure SaveUsers();
+var
+  sb: StringBuilder;
+begin
+  sb := new StringBuilder;
+  foreach var u in users do
+  begin
     sb.AppendLine('USER_START');
     sb.AppendLine('  {"nickname":"' + EscapeJson(u.nickname) + '"}');
     sb.AppendLine('  {"password":"' + EscapeJson(u.password) + '"}');
     sb.AppendLine('  {"registered_at":"' + u.registered_at + '"}');
     sb.AppendLine('USER_END');
     sb.AppendLine('');
-    idx := idx + 1;
   end;
-  
-  System.IO.File.WriteAllText(DataFile, sb.ToString, Encoding.UTF8);
-  writeln('💾 Данные сохранены');
+  System.IO.File.WriteAllText(UsersFile, sb.ToString, Encoding.UTF8);
 end;
 
 // ========== ОБРАБОТЧИКИ ЗАПРОСОВ ==========
@@ -227,72 +222,68 @@ end;
 procedure HandleGetFanfics(context: HttpListenerContext);
 var
   sb: StringBuilder;
-  f: Fanfic;
   first: boolean;
-  idx: integer;
 begin
   sb := new StringBuilder;
   sb.Append('[');
   first := true;
   
-  idx := 0;
-  while idx < fanfics.Count do
+  foreach var f in fanfics do
   begin
-    f := fanfics[idx];
-    if not first then
-      sb.Append(',');
+    if not first then sb.Append(',');
     first := false;
     
-    sb.Append('{"id":' + IntToStr(f.id) + ',"title":"' + EscapeJson(f.title) + '","author":"' + EscapeJson(f.author) + '","content":"' + EscapeJson(f.content) + '","created_at":"' + f.created_at + '"}');
-    idx := idx + 1;
+    sb.Append('{');
+    sb.Append('"id":' + IntToStr(f.id) + ',');
+    sb.Append('"title":"' + EscapeJson(f.title) + '",');
+    sb.Append('"author":"' + EscapeJson(f.author) + '",');
+    sb.Append('"size":"' + EscapeJson(f.size) + '",');
+    sb.Append('"categories":"' + EscapeJson(f.categories) + '",');
+    sb.Append('"features":"' + EscapeJson(f.features) + '",');
+    sb.Append('"rating":"' + EscapeJson(f.rating) + '",');
+    sb.Append('"status":"' + EscapeJson(f.status) + '",');
+    sb.Append('"content":"' + EscapeJson(f.content) + '",');
+    sb.Append('"created_at":"' + f.created_at + '"');
+    sb.Append('}');
   end;
   
   sb.Append(']');
   SendJsonResponse(context, sb.ToString, 200);
-  writeln('✅ GET /api/fanfics - отдано ', fanfics.Count, ' фанфиков');
 end;
 
 procedure HandleCreateFanfic(context: HttpListenerContext);
 var
   RequestBody: string;
-  title, author, content: string;
-  newId: integer;
-  newFanfic: Fanfic;
+  f: Fanfic;
 begin
   var reader := new System.IO.StreamReader(context.Request.InputStream, Encoding.UTF8);
   RequestBody := reader.ReadToEnd();
   
-  title := ExtractJsonValue(RequestBody, 'title');
-  author := ExtractJsonValue(RequestBody, 'author');
-  content := ExtractJsonValue(RequestBody, 'content');
-  
-  if title = '' then title := 'Без названия';
-  if author = '' then author := 'Anonymous';
-  
-  newId := nextId;
+  f.id := nextId;
   nextId := nextId + 1;
+  f.title := ExtractJsonValue(RequestBody, 'title');
+  f.author := ExtractJsonValue(RequestBody, 'author');
+  f.size := ExtractJsonValue(RequestBody, 'size');
+  f.categories := ExtractJsonValue(RequestBody, 'categories');
+  f.features := ExtractJsonValue(RequestBody, 'features');
+  f.rating := ExtractJsonValue(RequestBody, 'rating');
+  f.status := ExtractJsonValue(RequestBody, 'status');
+  f.content := ExtractJsonValue(RequestBody, 'content');
+  f.created_at := DateTime.Now.ToString('yyyy-MM-dd HH:mm:ss');
   
-  newFanfic.id := newId;
-  newFanfic.title := title;
-  newFanfic.author := author;
-  newFanfic.content := content;
-  newFanfic.created_at := DateTime.Now.ToString('yyyy-MM-dd HH:mm:ss');
+  if f.title = '' then f.title := 'Без названия';
   
-  fanfics.Add(newFanfic);
-  SaveData();
+  fanfics.Add(f);
+  SaveFanfics();
   
-  var responseJson := '{"status":"success","id":' + IntToStr(newId) + '}';
-  SendJsonResponse(context, responseJson, 201);
-  writeln('✅ POST /api/fanfics - создан фанфик #', newId, ': ', title);
+  SendJsonResponse(context, '{"status":"success","id":' + IntToStr(f.id) + '}', 201);
 end;
 
 procedure HandleLogin(context: HttpListenerContext);
 var
   RequestBody: string;
   nickname, password: string;
-  u: User;
   found: boolean;
-  idx: integer;
 begin
   var reader := new System.IO.StreamReader(context.Request.InputStream, Encoding.UTF8);
   RequestBody := reader.ReadToEnd();
@@ -301,110 +292,54 @@ begin
   password := ExtractJsonValue(RequestBody, 'password');
   
   found := false;
-  idx := 0;
-  while idx < users.Count do
-  begin
-    u := users[idx];
-    if (u.nickname = nickname) and (u.password = password) then
-    begin
-      found := true;
-      Break;
-    end;
-    idx := idx + 1;
-  end;
+  foreach var u in users do
+    if (u.nickname = nickname) and (u.password = password) then found := true;
   
   if found then
-  begin
-    SendJsonResponse(context, '{"status":"success","nickname":"' + nickname + '"}', 200);
-    writeln('🔐 POST /api/login - ', nickname, ' успешно');
-  end
+    SendJsonResponse(context, '{"status":"success","nickname":"' + nickname + '"}', 200)
   else
-  begin
     SendJsonResponse(context, '{"status":"error","message":"Неверный логин или пароль"}', 401);
-    writeln('🔐 POST /api/login - ', nickname, ' неудача');
-  end;
 end;
 
 procedure HandleRegister(context: HttpListenerContext);
 var
   RequestBody: string;
-  nickname, password, password2: string;
-  newUser: User;
-  exists: boolean;
   u: User;
-  idx: integer;
 begin
   var reader := new System.IO.StreamReader(context.Request.InputStream, Encoding.UTF8);
   RequestBody := reader.ReadToEnd();
   
-  nickname := ExtractJsonValue(RequestBody, 'nickname');
-  password := ExtractJsonValue(RequestBody, 'password');
-  password2 := ExtractJsonValue(RequestBody, 'password2');
+  u.nickname := ExtractJsonValue(RequestBody, 'nickname');
+  u.password := ExtractJsonValue(RequestBody, 'password');
+  u.registered_at := DateTime.Now.ToString('yyyy-MM-dd HH:mm:ss');
   
-  if password <> password2 then
-  begin
-    SendJsonResponse(context, '{"status":"error","message":"Пароли не совпадают"}', 400);
-    Exit;
-  end;
+  users.Add(u);
+  SaveUsers();
   
-  if Length(password) < 3 then
-  begin
-    SendJsonResponse(context, '{"status":"error","message":"Пароль должен быть не менее 3 символов"}', 400);
-    Exit;
-  end;
-  
-  exists := false;
-  idx := 0;
-  while idx < users.Count do
-  begin
-    u := users[idx];
-    if u.nickname = nickname then
-    begin
-      exists := true;
-      Break;
-    end;
-    idx := idx + 1;
-  end;
-  
-  if exists then
-  begin
-    SendJsonResponse(context, '{"status":"error","message":"Пользователь уже существует"}', 400);
-    Exit;
-  end;
-  
-  newUser.nickname := nickname;
-  newUser.password := password;
-  newUser.registered_at := DateTime.Now.ToString('yyyy-MM-dd HH:mm:ss');
-  
-  users.Add(newUser);
-  SaveData();
-  
-  SendJsonResponse(context, '{"status":"success","nickname":"' + nickname + '"}', 201);
-  writeln('📝 Зарегистрирован новый пользователь: ', nickname);
+  SendJsonResponse(context, '{"status":"success"}', 201);
 end;
 
 // ========== ОСНОВНАЯ ПРОГРАММА ==========
 
 begin
-  LoadData();
+  LoadUsers();
+  LoadFanfics();
   
   server := new HttpListener();
   server.Prefixes.Add('http://localhost:8080/');
   server.Start();
   
   writeln('========================================');
-  writeln('📖 Сервер фанфиков запущен!');
-  writeln('🌐 http://localhost:8080/');
-  writeln('📡 API: http://localhost:8080/api/fanfics');
-  writeln('💾 База данных: ', DataFile);
+  writeln('📖 Сервер запущен на http://localhost:8080/');
+  writeln('📂 Фанфиков загружено: ', fanfics.Count);
+  writeln('👥 Пользователей загружено: ', users.Count);
   writeln('========================================');
-  writeln('Нажмите Enter для остановки сервера');
-  writeln('');
   
   while true do
   begin
     var context := server.GetContext();
     
+    // CORS настройки для браузеров
     context.Response.AddHeader('Access-Control-Allow-Origin', '*');
     context.Response.AddHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     context.Response.AddHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -419,8 +354,6 @@ begin
     var url := context.Request.Url.LocalPath;
     var method := context.Request.HttpMethod;
     
-    writeln(DateTime.Now.ToString('HH:mm:ss'), ' ', method, ' ', url);
-    
     if (method = 'GET') and (url = '/api/fanfics') then
       HandleGetFanfics(context)
     else if (method = 'POST') and (url = '/api/fanfics') then
@@ -432,10 +365,6 @@ begin
     else
     begin
       context.Response.StatusCode := 404;
-      var errorMsg := '<h1>404 - Не найдено</h1><p>' + url + '</p>';
-      var bytes := Encoding.UTF8.GetBytes(errorMsg);
-      context.Response.OutputStream.Write(bytes, 0, bytes.Length);
-      writeln('  ❌ 404: ', url);
     end;
     
     context.Response.Close();
