@@ -1,6 +1,3 @@
-// Этот файл должен подключаться ПЕРВЫМ в каждом HTML!
-<script src="../js_outer/outer.js"></script>
-
 const API_URL = 'http://localhost:8080/api';
 let currentUser = localStorage.getItem('currentUser') || null;
 

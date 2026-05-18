@@ -1,0 +1,6 @@
+﻿USER_START
+  {"nickname":"0"}
+  {"password":"0000"}
+  {"registered_at":"2026-05-18 15:01:00"}
+USER_END
+
