@@ -1,0 +1,30 @@
+﻿USER_START
+  {"nickname":"sdfsdf"}
+  {"password":"123321"}
+  {"registered_at":"2026-05-19 06:26:34"}
+USER_END
+
+USER_START
+  {"nickname":"1212"}
+  {"password":"1212"}
+  {"registered_at":"2026-05-19 06:41:45"}
+USER_END
+
+USER_START
+  {"nickname":"121212"}
+  {"password":"121212"}
+  {"registered_at":"2026-05-19 13:52:59"}
+USER_END
+
+USER_START
+  {"nickname":"12121212"}
+  {"password":"12121212"}
+  {"registered_at":"2026-05-19 14:26:56"}
+USER_END
+
+USER_START
+  {"nickname":"1212121"}
+  {"password":"121212"}
+  {"registered_at":"2026-05-20 13:41:42"}
+USER_END
+

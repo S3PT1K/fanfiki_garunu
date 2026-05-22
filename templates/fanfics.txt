@@ -50,3 +50,120 @@ FANFIC_START
   {"created_at":"2026-05-15 17:20:00"}
 FANFIC_END
 
+FANFIC_START
+  {"id":5}
+  {"title":"dfgdgdgファンフィク名:"}
+  {"author":"Anonymous"}
+  {"size":"ミディ"}
+  {"categories":"ロマンス, 探偵, オメガバース, 心理学, OOC"}
+  {"features":"第四の壁"}
+  {"rating":"NC-21"}
+  {"status":"凍結"}
+  {"content":"ファンフィク名:ファンフィク名:ファンフィク名:ファンフィク名:ファンフィク名:"}
+  {"created_at":"2026-05-18 14:09:53"}
+FANFIC_END
+
+FANFIC_START
+  {"id":6}
+  {"title":"1231231"}
+  {"author":"{\\\"}"}
+  {"size":"123123"}
+  {"categories":"Драббл"}
+  {"features":""}
+  {"rating":""}
+  {"status":"R"}
+  {"content":"{\\\"}"}
+  {"created_at":"2026-05-19 00:09:25"}
+FANFIC_END
+
+FANFIC_START
+  {"id":7}
+  {"title":"1212"}
+  {"author":"{\"status\":\"success\",\"nickname\":\"121212\"}"}
+  {"size":"12121"}
+  {"categories":"Драббл"}
+  {"features":"Романтика, Исторические эпохи, Постапокалипсис, Эксперимент"}
+  {"rating":""}
+  {"status":"G"}
+  {"content":"{\"status\":\"success\",\"nickname\":\"121212\"}"}
+  {"created_at":"2026-05-19 13:53:34"}
+FANFIC_END
+
+FANFIC_START
+  {"id":8}
+  {"title":"12121"}
+  {"author":"{\"status\":\"success\",\"nickname\":\"121212\"}"}
+  {"size":"2112122112"}
+  {"categories":"Драббл"}
+  {"features":"Романтика, Детектив, Путешествие во времени, Пропущенная сцена, Научная фантастика"}
+  {"rating":"POV"}
+  {"status":"NC-21"}
+  {"content":"{\"status\":\"success\",\"nickname\":\"121212\"}"}
+  {"created_at":"2026-05-19 14:12:28"}
+FANFIC_END
+
+FANFIC_START
+  {"id":9}
+  {"title":"12123"}
+  {"author":"{\"status\":\"success\",\"nickname\":\"121212\"}"}
+  {"size":"21312123123"}
+  {"categories":"Драббл"}
+  {"features":"Занавесочная история, Путешествие во времени, Психология"}
+  {"rating":""}
+  {"status":"PG-13"}
+  {"content":"{\"status\":\"success\",\"nickname\":\"121212\"}"}
+  {"created_at":"2026-05-19 14:14:51"}
+FANFIC_END
+
+FANFIC_START
+  {"id":10}
+  {"title":"1313"}
+  {"author":"{\"status\":\"success\",\"nickname\":\"121212\"}"}
+  {"size":"Миди"}
+  {"categories":"Романтика, Тёмное произведение, Путешествие во времени, Повседневность, Психология, OOC"}
+  {"features":""}
+  {"rating":"R"}
+  {"status":"Завершён"}
+  {"content":"12123123123"}
+  {"created_at":"2026-05-19 14:22:54"}
+FANFIC_END
+
+FANFIC_START
+  {"id":11}
+  {"title":"1231221"}
+  {"author":"12121212"}
+  {"size":"Драббл"}
+  {"categories":"Романтика, Злой автор, Постапокалипсис, Эксперимент"}
+  {"features":""}
+  {"rating":"R"}
+  {"status":"Завершён"}
+  {"content":"12123123123123123132132123"}
+  {"created_at":"2026-05-19 14:27:16"}
+FANFIC_END
+
+FANFIC_START
+  {"id":12}
+  {"title":"ПАРПРА"}
+  {"author":"ЕБЛАН"}
+  {"size":"Миди"}
+  {"categories":"Ангст, Исторические эпохи, Экшн"}
+  {"features":"Четвёртая стена"}
+  {"rating":"NC-17"}
+  {"status":"Анонсирован"}
+  {"content":"РАПРАППРААП"}
+  {"created_at":"2026-05-20 09:35:10"}
+FANFIC_END
+
+FANFIC_START
+  {"id":13}
+  {"title":"ываываваы"}
+  {"author":"084н234723"}
+  {"size":"Драббл"}
+  {"categories":"Романтика"}
+  {"features":""}
+  {"rating":"NC-17"}
+  {"status":"Заброшен"}
+  {"content":"вапвпавпаывапывапывапывапывапывпаывпаывпапывапывавпыа"}
+  {"created_at":"2026-05-20 13:46:52"}
+FANFIC_END
+

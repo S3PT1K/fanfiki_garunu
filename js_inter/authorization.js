@@ -1,18 +1,25 @@
-document.addEventListener('DOMContentLoaded', () => {
+// Конфигурация сервера
+const API_URL = 'http://localhost:8080/api';
 
-    // Кнопка «Зарегистрироваться» — переход на регистрацию
+// Вспомогательная функция для входа
+async function login(nickname, password) {
+    const response = await fetch(`${API_URL}/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nickname, password })
+    });
+    const result = await response.json();
+    if (result.status === 'success') {
+        localStorage.setItem('currentUser', JSON.stringify(result));
+    }
+    return result;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Переход на регистрацию
     const toRegBtn = document.getElementById('to-reg');
     if (toRegBtn) {
-        toRegBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'registration.html';
-        });
-    }
-
-    const registerButtonI18n = document.querySelector('button[data-i18n="auth-register"]');
-    if (registerButtonI18n) {
-        registerButtonI18n.addEventListener('click', (e) => {
-            e.preventDefault();
+        toRegBtn.addEventListener('click', () => {
             window.location.href = 'registration.html';
         });
     }
@@ -23,35 +30,43 @@ document.addEventListener('DOMContentLoaded', () => {
     loginForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        let nickname, password;
-
         const nicknameInput = loginForm.querySelector('input[name="nickname"]');
         const passwordInput = loginForm.querySelector('input[name="password"]');
+        const submitBtn     = loginForm.querySelector('input[type="submit"]');
 
-        if (nicknameInput && passwordInput) {
-            nickname = nicknameInput.value.trim();
-            password = passwordInput.value;
-        } else {
-            const inputs = loginForm.querySelectorAll('input');
-            nickname = inputs[0]?.value.trim() || '';
-            password = inputs[1]?.value || '';
-        }
+        const nickname = nicknameInput.value.trim();
+        const password = passwordInput.value;
 
-        if (!nickname) { alert('Введите никнейм!'); return; }
-        if (!password) { alert('Введите пароль!'); return; }
+        nicknameInput.classList.remove('error');
+        passwordInput.classList.remove('error');
 
-        let result;
-        try {
-            result = await login(nickname, password);
-        } catch (err) {
-            alert('Сервер не отвечает. Убедитесь, что Pascal-сервер запущен (F9).');
+        if (!nickname || !password) {
+            if (!nickname) nicknameInput.classList.add('error');
+            if (!password) passwordInput.classList.add('error');
             return;
         }
 
-        if (result.status === 'success') {
-            window.location.href = 'index.html';
-        } else {
-            alert('Ошибка: ' + (result.message || 'Неверный логин или пароль'));
+        submitBtn.disabled = true;
+        submitBtn.value = 'Входим...';
+
+        try {
+            const result = await login(nickname, password);
+
+            if (result.status === 'success') {
+                submitBtn.value = '✓ Успешно!';
+                submitBtn.style.backgroundColor = 'green';
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 400);
+            } else {
+                alert('Ошибка: ' + (result.message || 'Неверный логин или пароль'));
+                submitBtn.disabled = false;
+                submitBtn.value = 'LOG IN';
+            }
+        } catch (e) {
+            alert('Сервер не отвечает. Проверьте, что Pascal-сервер запущен!');
+            submitBtn.disabled = false;
+            submitBtn.value = 'LOG IN';
         }
     });
 });

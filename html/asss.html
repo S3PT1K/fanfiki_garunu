@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <script src="../js_outer/outer.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>OurFanfics – Читай и создавай</title>
@@ -11,46 +10,97 @@
 </head>
 <body>
 <div class="container">
+
+    <!-- ── Шапка ── -->
     <div class="header">
-        <div class="image-header">
-            <img src="/images/11.png" alt="Лого">
+
+        <!-- Левая часть: кнопка «На главную» + LoginButton -->
+        <div class="header-actions">
+            <button class="back-to-site-btn" onclick="window.location.href='/html/index.html'">
+                ← На главную
+            </button>
+            <div class="LoginButton"></div>
         </div>
-        <div class="header-title">
-            <h1>OurFanfics</h1>
-            <p>The creativity of fans prolongs the life of the characters</p>
+
+        <!-- Центр: название + иконка рядом справа -->
+        <div class="header-center">
+            <div class="header-title">
+                <h1>OurFanfics</h1>
+                <p>The creativity of fans prolongs the life of the characters</p>
+            </div>
+            <div class="image-header">
+                <img src="/images/11.png" alt="Лого">
+            </div>
         </div>
-        <div class="LoginButton">
-            <button>Log In</button>
-        </div>
+
+        <!-- Правый распорный блок (симметрия) -->
+        <div class="header-spacer"></div>
+
     </div>
+
     <div class="main">
-        <div class="nav-panel">
+
+        <!-- ── Навигационная панель ── -->
+        <nav class="nav-panel">
             <div class="profile-vision">
-                <img src="/images/anonymous-profile.png" class="profile-icon" alt="avatar">
-                <div class="nick" data-i18n="profile-nick">Nick</div>
+                <img class="profile-icon" src="/images/profile-default.png" alt="Профиль">
+                <span class="nick">Гость</span>
+                <!-- Кнопки смены темы -->
+                <div class="theme-toggle-row">
+                    <button class="theme-btn theme-btn--light" onclick="setTheme('light')" title="Светлая тема">☀️</button>
+                    <button class="theme-btn theme-btn--dark"  onclick="setTheme('dark')"  title="Тёмная тема">🌙</button>
+                </div>
             </div>
             <div class="buttons">
-                <button data-page="main" data-i18n="nav-main" id="navMainBtn">Main</button>
-                <button data-page="profile" data-i18n="nav-profile">Profile</button>
-                <button data-page="create" data-i18n="nav-create">Create</button>
-                <button data-page="saves" data-i18n="nav-saves">Saves</button>
-                <button data-page="settings" data-i18n="nav-settings">Settings</button>
-                <button data-page="rules" data-i18n="nav-rules">Rules</button>
-                <button data-page="faq" data-i18n="nav-faq">FAQ</button>
-                <button data-page="back" data-i18n="nav-back" id="navBackBtn">← Back</button>
+                <button data-page="main">🏠 Главная</button>
+                <button data-page="profile">👤 Профиль</button>
+                <button data-page="create">✍️ Создать</button>
+                <button data-page="saves">🔖 Сохранённое</button>
+                <button data-page="settings">⚙️ Настройки</button>
+                <button data-page="rules">📜 Правила</button>
+                <button data-page="faq">❓ FAQ</button>
+                <button data-page="back">← Назад</button>
             </div>
-        </div>
-        <div class="main-panel" id="dynamicContent">
-            <div id="loadingIndicator" style="text-align:center; padding:40px;">⏳ Загрузка...</div>
-        </div>
-    </div>
-</div>
+        </nav>
+
+        <!-- ── Основной контент ── -->
+        <div class="main-panel">
+
+            <!-- Панель фильтра/поиска (видна только в режиме списка) -->
+            <div id="filterPanel" class="filter-panel">
+                <div class="filter-row">
+                    <input
+                        type="text"
+                        id="filterInput"
+                        class="filter-input"
+                        placeholder="🔍 Поиск по названию, автору, тегам…"
+                        oninput="applyFilter()"
+                    >
+                    <select id="filterField" class="filter-select" onchange="applyFilter()">
+                        <option value="all">Везде</option>
+                        <option value="title">Название</option>
+                        <option value="author">Автор</option>
+                        <option value="categories">Теги / категории</option>
+                        <option value="content">Текст</option>
+                    </select>
+                    <button class="filter-clear-btn" onclick="clearFilter()">✕ Сбросить</button>
+                </div>
+                <div id="activeTagsRow" class="active-tags-row"></div>
+            </div>
+
+            <div class="reader-wrapper">
+                <div id="dynamicContent">
+                    <div style="text-align:center; padding:60px;">⏳ Загрузка произведений…</div>
+                </div>
+            </div>
+
+        </div><!-- /main-panel -->
+    </div><!-- /main -->
+
+</div><!-- /container -->
 
 <script src="/js_outer/outer.js"></script>
+<script src="/js_inter/asss.js"></script>
+
 </body>
 </html>
-    <script src="/js_outer/outer.js"></script>
-    <script src="/js_inter/main.js"></script>
-    <script src="/js_inter/settings.js"></script>
-    <script src="/js_inter/asss.js"></script>
-    

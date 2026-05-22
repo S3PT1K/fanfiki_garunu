@@ -428,7 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const statusSelect = createForm.querySelectorAll('.create-select')[2];
         const status = statusSelect ? statusSelect.value : '';
 
-        const result = await createFanfic(title, author, content, size, categories, features, rating, status);
+        const result = await createFanfic(title, content, size, categories, features, rating, status);
 
         if (result && result.status === 'success') {
             alert('Фанфик успешно создан!');

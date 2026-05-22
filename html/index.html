@@ -1,12 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="../js_outer/outer.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OurFanfics - Main</title>
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/settings.css">
+    <style>
+        /* ── Auth button styles ── */
+        .LoginButton {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-left: auto;
+            padding-right: 16px;
+        }
+        .auth-btn {
+            font-family: 'Monotype Corsiva', cursive;
+            font-size: 1.1rem;
+            border: 2px solid rgb(92,35,35);
+            border-radius: 8px;
+            padding: 6px 18px;
+            cursor: pointer;
+            transition: background-color .2s, color .2s;
+        }
+        .login-btn {
+            background: blanchedalmond;
+            color: #2c1810;
+        }
+        .login-btn:hover { background: #e8d5b0; }
+
+        /* Shows current nick, links to profile */
+        .profile-btn {
+            background: blanchedalmond;
+            color: #2c1810;
+            max-width: 160px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .profile-btn:hover { background: #e8d5b0; }
+
+        /* Small logout icon button */
+        .logout-btn {
+            background: transparent;
+            color: blanchedalmond;
+            border-color: blanchedalmond;
+            padding: 6px 10px;
+            font-size: .9rem;
+            opacity: .8;
+        }
+        .logout-btn:hover { opacity: 1; background: rgba(255,255,255,.1); }
+
+        body.dark-theme .auth-btn {
+            border-color: #555;
+        }
+        body.dark-theme .login-btn,
+        body.dark-theme .profile-btn {
+            background: #3a3a3a;
+            color: #e0e0e0;
+        }
+        body.dark-theme .login-btn:hover,
+        body.dark-theme .profile-btn:hover { background: #4a4a4a; }
+    </style>
 </head>
 
 <body>
@@ -19,10 +75,12 @@
                 <h1>OurFanfics</h1>
                 <p>The creativity of fans prolongs the life of the characters</p>
             </div>
+            <!-- Кнопка: Login или Профиль — заполняется скриптом -->
             <div class="LoginButton">
-                <button>Log In</button>
+                <!-- updateAuthButton() наполнит это место -->
             </div>
         </div>
+
         <div class="main">
             <div class="nav-panel">
                 <div class="profile-vision">
@@ -30,179 +88,134 @@
                     <div class="nick" data-i18n="profile-nick">Nick</div>
                 </div>
                 <div class="buttons">
-                    <button data-page="main" data-i18n="nav-main">Main</button>
-                    <button data-page="profile" data-i18n="nav-profile">Profile</button>
-                    <button data-page="create" data-i18n="nav-create">Create</button>
-                    <button data-page="saves" data-i18n="nav-saves">Saves</button>
+                    <button data-page="main"     data-i18n="nav-main">Main</button>
+                    <button data-page="profile"  data-i18n="nav-profile">Profile</button>
+                    <button data-page="create"   data-i18n="nav-create">Create</button>
+                    <button data-page="saves"    data-i18n="nav-saves">Saves</button>
                     <button data-page="settings" data-i18n="nav-settings">Settings</button>
-                    <button data-page="rules" data-i18n="nav-rules">Rules</button>
-                    <button data-page="faq" data-i18n="nav-faq">FAQ</button>
-                    <button data-page="back" data-i18n="nav-back">← Back</button>
+                    <button data-page="rules"    data-i18n="nav-rules">Rules</button>
+                    <button data-page="faq"      data-i18n="nav-faq">FAQ</button>
+                    <button data-page="back"     data-i18n="nav-back">← Back</button>
                 </div>
             </div>
+
             <div class="main-panel">
-                <!-- Блок для отображения списка фанфиков -->
 
-<script>
-    // Функция для перехода на страницу фанфика
-    function goToFanfic(fanficId, fanficTitle) {
-        const encodedTitle = encodeURIComponent(fanficTitle);
-        window.location.href = `asss.html?id=${fanficId}`;
-    }
+                <script>
+                    function goToFanfic(fanficId) {
+                        window.location.href = `asss.html?id=${fanficId}`;
+                    }
 
-    // Функция загрузки и отображения фанфиков
-    async function displayFanfics() {
-        const container = document.getElementById('fanficsContainer');
-        if (!container) return;
-        
-        try {
-            if (typeof getFanfics !== 'function') {
-                container.innerHTML = '<p>❌ Ошибка: функция getFanfics не загружена. Убедитесь, что подключен outer.js</p>';
-                return;
-            }
-            
-            const fanfics = await getFanfics();
-            
-            if (!fanfics || fanfics.length === 0) {
-                container.innerHTML = '<p>😢 Пока нет фанфиков. Создай первый на странице "Create"!</p>';
-                return;
-            }
-            
-            let html = '';
-            for (let i = 0; i < fanfics.length; i++) {
-                const f = fanfics[i];
-                const fanficId = f.id || i;
-                html += `
-                    <div class="fanfic-item" style="border-bottom: 2px solid brown; padding: 15px 0; margin-bottom: 10px;">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
-                            <div style="flex: 1;">
-                                <h3 style="margin: 0 0 5px 0; color: #4a2a2a;">📌 ${escapeHtml(f.title)}</h3>
-                                <p style="margin: 5px 0; color: #666;">
-                                    ✍️ <strong>Автор:</strong> ${escapeHtml(f.author)} &nbsp;|&nbsp;
-                                    🕒 ${escapeHtml(f.created_at) || 'дата неизвестна'}
-                                </p>
-                                <p style="margin-top: 10px; line-height: 1.4;">
-                                    ${escapeHtml(f.content ? f.content.substring(0, 25) : '')}${f.content && f.content.length > 50 ? '...' : ''}
-                                </p>
-                            </div>
-                            <div style="margin-left: 15px;">
-                                <button onclick="goToFanfic(${fanficId}, '${escapeHtml(f.title).replace(/'/g, "\\'")}')" 
-                                        style="padding: 8px 20px; background-color: #4a2a2a; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
-                                    📖 Читать фанфик
-                                </button>
-                            </div>
-                        </div>
-                        ${f.content && f.content.length > 300 ? `<button onclick="alert('Полный текст фанфика:\n\n${escapeHtml(f.content)}')" style="margin-top: 8px; padding: 5px 12px; background-color: brown; color: white; border: none; border-radius: 3px; cursor: pointer;">📖 Быстрый просмотр</button>` : ''}
-                    </div>
-                `;
-            }
-            container.innerHTML = html;
-            
-        } catch (error) {
-            console.error('Ошибка загрузки фанфиков:', error);
-            container.innerHTML = '<p>❌ Не удалось загрузить фанфики. Проверь, запущен ли сервер (localhost:8080).</p>';
-        }
-    }
-    
-    function escapeHtml(str) {
-        if (!str) return '';
-        return str
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;');
-    }
-    
-    document.addEventListener('DOMContentLoaded', () => {
-        displayFanfics();
-    });
-</script>
+                    function escapeHtml(str) {
+                        if (!str) return '';
+                        return str
+                            .replace(/&/g, '&amp;')
+                            .replace(/</g, '&lt;')
+                            .replace(/>/g, '&gt;')
+                            .replace(/"/g, '&quot;')
+                            .replace(/'/g, '&#39;');
+                    }
+
+                    async function displayFanfics() {
+                        const container = document.getElementById('fanficsContainer');
+                        if (!container) return;
+                        try {
+                            if (typeof getFanfics !== 'function') {
+                                container.innerHTML = '<p>❌ Ошибка: функция getFanfics не загружена. Убедитесь, что подключен outer.js</p>';
+                                return;
+                            }
+                            const fanfics = await getFanfics();
+                            if (!fanfics || fanfics.length === 0) {
+                                container.innerHTML = '<p>😢 Пока нет фанфиков. Создай первый на странице "Create"!</p>';
+                                return;
+                            }
+                            let html = '';
+                            for (let i = 0; i < fanfics.length; i++) {
+                                const f = fanfics[i];
+                                const fanficId = f.id || i;
+                                html += `
+                                    <div class="fanfic-item">
+                                        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap;">
+                                            <div style="flex:1;">
+                                                <h3 style="margin:0 0 5px 0; color:#4a2a2a;">📌 ${escapeHtml(f.title)}</h3>
+                                                <p style="margin:5px 0; color:#666;">
+                                                    ✍️ <strong>Автор:</strong> ${escapeHtml(f.author) || 'Anonymous'} &nbsp;|&nbsp;
+                                                    🕒 ${escapeHtml(f.created_at) || 'дата неизвестна'} &nbsp;|&nbsp;
+                                                    📋 <strong>Статус:</strong> ${escapeHtml(f.status) || 'не указан'}
+                                                </p>
+                                                <p style="margin-top:10px; line-height:1.4;">
+                                                    ${escapeHtml(f.content ? f.content.substring(0, 25) : '')}${f.content && f.content.length > 50 ? '...' : ''}
+                                                </p>
+                                            </div>
+                                            <div style="margin-left:15px;">
+                                                <button onclick="goToFanfic(${fanficId})"
+                                                        style="padding:8px 20px; background-color:#4a2a2a; color:white; border:none; border-radius:5px; cursor:pointer; font-size:14px;">
+                                                    📖 Читать фанфик
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                            container.innerHTML = html;
+                        } catch (error) {
+                            console.error('Ошибка загрузки фанфиков:', error);
+                            container.innerHTML = '<p>❌ Не удалось загрузить фанфики. Проверь, запущен ли сервер (localhost:8080).</p>';
+                        }
+                    }
+
+                    document.addEventListener('DOMContentLoaded', displayFanfics);
+                </script>
+
                 <div class="categories">
                     <div class="categories-list">
                         <p data-i18n="genres">Genres</p>
                         <div class="category-first-str">
-                            <button>Hurt/Comfort</button>
-                            <button>POV</button>
-                            <button>PWP</button>
-                            <button>Angst</button>
-                            <button>Dystopia</button>
-                            <button>Dark fiction</button>
-                            <button>Detective</button>
-                            <button>Drama</button>
-                            <button>Friendship</button>
+                            <button>Hurt/Comfort</button><button>POV</button><button>PWP</button>
+                            <button>Angst</button><button>Dystopia</button><button>Dark fiction</button>
+                            <button>Detective</button><button>Drama</button><button>Friendship</button>
                         </div>
                         <div class="category-second-str">
-                            <button>Curtain story</button>
-                            <button>Evil author</button>
-                            <button>Historical epochs</button>
-                            <button>Love/Hate</button>
-                            <button>Time travel</button>
-                            <button>Omegaverse</button>
-                            <button>Parody</button>
-                            <button>First time</button>
-                            <button>Slice of life</button>
+                            <button>Curtain story</button><button>Evil author</button><button>Historical epochs</button>
+                            <button>Love/Hate</button><button>Time travel</button><button>Omegaverse</button>
+                            <button>Parody</button><button>First time</button><button>Slice of life</button>
                         </div>
                         <div class="category-third-str">
-                            <button>Isekai</button>
-                            <button>Post-Apocalyptic</button>
-                            <button>Omitted scene</button>
-                            <button>Psychology</button>
-                            <button>Romance</button>
-                            <button>Soulmates</button>
-                            <button>Banter</button>
-                            <button>Horror</button>
-                            <button>School life</button>
+                            <button>Isekai</button><button>Post-Apocalyptic</button><button>Omitted scene</button>
+                            <button>Psychology</button><button>Romance</button><button>Soulmates</button>
+                            <button>Banter</button><button>Horror</button><button>School life</button>
                         </div>
                         <div class="category-fourth-str">
-                            <button>Sci-fi</button>
-                            <button>Philosophy</button>
-                            <button>Puff</button>
-                            <button>Experiment</button>
-                            <button>Action</button>
-                            <button>Comedy</button>
-                            <button>OOC</button>
-                            <button>OFP</button>
-                            <button>OMP</button>
+                            <button>Sci-fi</button><button>Philosophy</button><button>Puff</button>
+                            <button>Experiment</button><button>Action</button><button>Comedy</button>
+                            <button>OOC</button><button>OFP</button><button>OMP</button>
                         </div>
                         <p data-i18n="sizes">Sizes</p>
                         <div class="category-sizes">
-                            <button>Drabble</button>
-                            <button>Mini</button>
-                            <button>Midi</button>
-                            <button>Maxi</button>
+                            <button>Drabble</button><button>Mini</button><button>Midi</button><button>Maxi</button>
                         </div>
                         <p data-i18n="features">Features</p>
                         <div class="category-features">
-                            <button>POV</button>
-                            <button>AU</button>
-                            <button>Fourth wall</button>
+                            <button>POV</button><button>AU</button><button>Fourth wall</button>
                         </div>
                         <p data-i18n="age-ratings">Age ratings</p>
                         <div class="category-age-ratings">
-                            <button>G</button>
-                            <button>PG-13</button>
-                            <button>R</button>
-                            <button>NC-17</button>
-                            <button>NC-21</button>
+                            <button>G</button><button>PG-13</button><button>R</button>
+                            <button>NC-17</button><button>NC-21</button>
                         </div>
                     </div>
+
                     <div class="categories-list-two">
                         <div class="category-two">
                             <p data-i18n="status">Status</p>
                             <div class="status">
-                                <button>Abandoned</button>
-                                <button>Frozen</button>
-                                <button>Announced</button>
-                                <button>Finished</button>
-                                <button>In progress</button>
+                                <button>Abandoned</button><button>Frozen</button><button>Announced</button>
+                                <button>Finished</button><button>In progress</button>
                             </div>
                             <p data-i18n="date">Date</p>
                             <div class="date">
-                                <button>This Day</button>
-                                <button>This week</button>
-                                <button>This month</button>
-                                <button>This year</button>
+                                <button>This Day</button><button>This week</button>
+                                <button>This month</button><button>This year</button>
                             </div>
                         </div>
                         <div class="search">
@@ -222,13 +235,15 @@
                 </div>
             </div>
         </div>
-        <div id="fanficsSection" style="background-color: blanchedalmond; margin: 20px; padding: 20px; border-radius: 10px;">
+
+        <div id="fanficsSection" style="background-color:blanchedalmond; margin:20px; padding:20px; border-radius:10px;">
             <h3 data-i18n="fanfics-title">📖 Все фанфики</h3>
             <div id="fanficsContainer">Загрузка...</div>
         </div>
-        
-        <div style="display: none;" id="routeInfo"></div>
+
+        <div style="display:none;" id="routeInfo"></div>
     </div>
+
     <script src="/js_outer/outer.js"></script>
     <script src="/js_inter/main.js"></script>
     <script src="/js_inter/settings.js"></script>

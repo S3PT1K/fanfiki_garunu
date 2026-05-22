@@ -1,0 +1,13 @@
+﻿FANFIC_START
+  {"id":1}
+  {"title":"123"}
+  {"author":"0"}
+  {"size":"Драббл"}
+  {"categories":""}
+  {"features":""}
+  {"rating":"G"}
+  {"status":"Заброшен"}
+  {"content":"123"}
+  {"created_at":"2026-05-20 10:36:05"}
+FANFIC_END
+

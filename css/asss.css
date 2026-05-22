@@ -1,106 +1,516 @@
+/* ═══════════════════════════════════════════════════════
+   asss.css  —  Reader page styles
+   Дополняет main.css, не дублирует его правила
+   ═══════════════════════════════════════════════════════ */
 
-        * {
-            box-sizing: border-box;
-        }
+* { box-sizing: border-box; }
 
-        /* Основные контейнеры */
-        .container, .main-panel, .reading-mode, .fanfic-item, .fanfic-content {
-            max-width: 100%;
-            overflow-x: hidden;
-        }
+/* ── Шапка ─────────────────────────────────────────────── */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    position: relative;
+    flex-wrap: nowrap;
+    gap: 8px;
+}
 
-        /* Принудительный перенос для всех текстовых блоков */
-        .fanfic-content,
-        .fanfic-item p,
-        .fanfic-full-title h2,
-        .fanfic-meta,
-        .reading-mode div,
-        .reading-mode p,
-        .reading-mode h2,
-        .reading-mode h3,
-        #dynamicContent * {
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-            word-break: break-word;
-            white-space: normal;
-        }
+/* Левая группа: кнопки */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    z-index: 1;
+}
 
-        /* Специально для длинных ссылок или неразрывных строк */
-        .fanfic-content a,
-        .fanfic-item a {
-            word-break: break-all;
-        }
+/* Центральный блок: абсолютно центрован */
+.header-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    pointer-events: none; /* чтобы не перехватывал клики по кнопкам */
+}
 
-        /* Адаптация под мобильные экраны */
-        @media (max-width: 768px) {
-            .reading-mode {
-                padding: 15px;
-                margin: 10px;
-            }
-            .fanfic-full-title {
-                padding-left: 12px;
-            }
-            .fanfic-content {
-                font-size: 0.98rem;
-                line-height: 1.5;
-            }
-            .fanfic-item div[style*="display: flex"] {
-                flex-direction: column;
-            }
-            .fanfic-item button {
-                margin-top: 10px;
-                width: 100%;
-            }
-        }
+/* Правый-распорный блок для симметрии */
+.header-spacer {
+    flex-shrink: 0;
+    /* Ширина равна ширине .header-actions — задаём через min-width чтобы
+       центр оставался центром при разных размерах кнопок */
+    min-width: 160px;
+}
 
-        /* Остальные оригинальные стили (сохранены и улучшены) */
-        .reading-mode {
-            background: #85714a;
-            border-radius: 20px;
-            padding: 25px;
-            margin: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .fanfic-full-title {
-            color: #4a2a2a;
-            border-left: 6px solid #a0522d;
-            padding-left: 20px;
-            margin-bottom: 20px;
-        }
-        .fanfic-meta {
-            color: #6b4e4e;
-            margin-bottom: 30px;
-            font-style: italic;
-        }
-        .fanfic-content {
-            line-height: 1.6;
-            font-size: 1.05rem;
-            font-family: 'Georgia', serif;
-        }
-        .back-button {
-            background: #8b5a2b;
-            color: rgb(177, 103, 103);
-            border: none;
-            padding: 8px 18px;
-            border-radius: 30px;
-            cursor: pointer;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-        .back-button:hover {
-            background: #5a3a1a;
-        }
-        /* Для элементов списка фанфиков */
-        .fanfic-item {
-            border-bottom: 2px solid brown;
-            padding: 15px 0;
-            margin-bottom: 10px;
-        }
-        .fanfic-item h3 {
-            margin: 0 0 5px 0;
-            color: #4a2a2a;
-        }
-        .fanfic-item p {
-            margin: 5px 0;
-            color: #666;
-        }
+/* Логотип справа от названия */
+.image-header {
+    display: flex;
+    align-items: center;
+    pointer-events: auto;
+}
+.image-header img { height: 7vh; }
+
+.back-to-site-btn {
+    font-family: 'Monotype Corsiva', cursive;
+    font-size: 1.1rem;
+    background: blanchedalmond;
+    color: #2c1810;
+    border: 2px solid rgb(92, 35, 35);
+    border-radius: 8px;
+    padding: 6px 16px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+.back-to-site-btn:hover { background: #e8d5b0; }
+
+body.dark-theme .back-to-site-btn {
+    background: #3a3a3a;
+    color: #e0e0e0;
+    border-color: #555;
+}
+body.dark-theme .back-to-site-btn:hover { background: #4a4a4a; }
+
+/* ── Кнопки смены темы (солнце / луна) ─────────────────── */
+.theme-toggle-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.theme-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: rgba(255,255,255,0.25);
+    font-size: 1.3rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    line-height: 1;
+}
+.theme-btn:hover {
+    transform: scale(1.15);
+    background: rgba(255,255,255,0.45);
+}
+
+/* Активная кнопка подсвечивается рамкой */
+.theme-btn--light.active {
+    border-color: #f0c040;
+    background: rgba(240,192,64,0.3);
+}
+.theme-btn--dark.active {
+    border-color: #7ab;
+    background: rgba(100,140,180,0.3);
+}
+
+body.dark-theme .theme-btn {
+    background: rgba(0,0,0,0.25);
+}
+body.dark-theme .theme-btn:hover {
+    background: rgba(0,0,0,0.45);
+}
+
+/* ── Layout: main + nav ─────────────────────────────────── */
+.main {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    min-height: calc(100vh - 10vh); /* высота за вычетом шапки */
+}
+
+.main-panel {
+    flex: 1;
+    padding: 0;
+    overflow-y: auto;
+    background-color: rgb(195, 149, 80);
+    transition: margin-left 0.3s ease;
+}
+
+body.dark-theme .main-panel { background-color: #2a2a2a; }
+
+/* ── Обёртка контента ───────────────────────────────────── */
+.reader-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 16px 16px 32px;
+}
+
+/* ── Overflow-fix для всех вложенных блоков ─────────────── */
+.container, #dynamicContent, .reading-mode,
+.fanfic-item, .fanfic-content {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.fanfic-content,
+.fanfic-item p,
+.fanfic-full-title h2,
+.fanfic-meta,
+.reading-mode div,
+.reading-mode p,
+.reading-mode h2,
+.reading-mode h3,
+#dynamicContent * {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+}
+.fanfic-content a, .fanfic-item a { word-break: break-all; }
+
+/* ════════════════════════════════════════════════════════
+   ФИЛЬТР-ПАНЕЛЬ
+   ════════════════════════════════════════════════════════ */
+
+.filter-panel {
+    max-width: 900px;
+    margin: 16px auto 0;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 12px;
+    border: 1px solid rgba(92,35,35,0.3);
+}
+
+/* Скрываем фильтр в режиме чтения */
+.filter-panel.hidden { display: none; }
+
+.filter-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.filter-input {
+    flex: 1;
+    min-width: 160px;
+    padding: 8px 12px;
+    border: 2px solid rgb(92,35,35);
+    border-radius: 8px;
+    font-family: 'Monotype Corsiva', cursive;
+    font-size: 1rem;
+    background: blanchedalmond;
+    color: #2c1810;
+    transition: border-color 0.2s;
+}
+.filter-input:focus {
+    outline: none;
+    border-color: #a0522d;
+}
+
+.filter-select {
+    padding: 8px 10px;
+    border: 2px solid rgb(92,35,35);
+    border-radius: 8px;
+    background: blanchedalmond;
+    color: #2c1810;
+    font-family: 'Monotype Corsiva', cursive;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.filter-clear-btn {
+    padding: 8px 14px;
+    background: #8b5a2b;
+    color: #f0d0a0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Monotype Corsiva', cursive;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+.filter-clear-btn:hover { background: #5a3a1a; }
+
+/* Строка активных тегов-чипов */
+.active-tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.tag-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #a0522d;
+    color: #fff8f0;
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.tag-chip:hover { background: #7a3a1a; }
+.tag-chip .chip-x { font-size: 0.9rem; opacity: 0.8; }
+
+/* Счётчик результатов */
+.filter-count {
+    font-size: 0.85rem;
+    color: #5a3a2a;
+    margin: 6px 0 0 2px;
+    font-style: italic;
+}
+body.dark-theme .filter-count { color: #b8997a; }
+
+/* Тёмная тема фильтра */
+body.dark-theme .filter-panel {
+    background: rgba(0,0,0,0.25);
+    border-color: rgba(255,255,255,0.1);
+}
+body.dark-theme .filter-input,
+body.dark-theme .filter-select {
+    background: #3a3a3a;
+    color: #e0e0e0;
+    border-color: #555;
+}
+body.dark-theme .filter-input:focus { border-color: #8b5a2b; }
+body.dark-theme .filter-clear-btn {
+    background: #5a3a1a;
+    color: #f0d0a0;
+}
+body.dark-theme .filter-clear-btn:hover { background: #3a2010; }
+
+/* ════════════════════════════════════════════════════════
+   РЕЖИМ ЧТЕНИЯ
+   ════════════════════════════════════════════════════════ */
+
+.reading-mode {
+    background: #85714a;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+}
+
+body.dark-theme .reading-mode { background: #2d2b27; }
+
+.fanfic-full-title {
+    color: #2c1810;
+    border-left: 6px solid #a0522d;
+    padding-left: 20px;
+    margin: 16px 0 20px;
+}
+body.dark-theme .fanfic-full-title { color: #f0e0c8; }
+
+.fanfic-meta {
+    color: #5a3a2a;
+    margin-bottom: 24px;
+    font-style: italic;
+    font-size: 0.95rem;
+}
+body.dark-theme .fanfic-meta { color: #b8997a; }
+
+.fanfic-tags {
+    margin-bottom: 16px;
+    color: #7a5533;
+    font-size: 0.9rem;
+}
+
+.fanfic-content {
+    line-height: 1.75;
+    font-size: 1.05rem;
+    font-family: 'Georgia', serif;
+    color: #1e1208;
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 20px;
+}
+body.dark-theme .fanfic-content {
+    color: #e8d5b8;
+    background: rgba(0,0,0,0.2);
+}
+
+/* Кнопки «назад» */
+.back-button {
+    background: #8b5a2b;
+    color: #f0d0a0;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-family: 'Monotype Corsiva', cursive;
+    font-size: 1rem;
+    transition: background 0.2s;
+}
+.back-button:hover { background: #5a3a1a; }
+
+/* ════════════════════════════════════════════════════════
+   СПИСОК ФАНФИКОВ
+   ════════════════════════════════════════════════════════ */
+
+.fanfic-item {
+    border-bottom: 2px solid #b07040;
+    padding: 18px 0;
+    margin-bottom: 4px;
+}
+body.dark-theme .fanfic-item { border-color: #5a4030; }
+
+.fanfic-item h3 {
+    margin: 0 0 6px;
+    color: #4a2a2a;
+    font-size: 1.15rem;
+}
+body.dark-theme .fanfic-item h3 { color: #e8c89a; }
+
+.fanfic-item p {
+    margin: 4px 0;
+    color: #555;
+    font-size: 0.9rem;
+}
+body.dark-theme .fanfic-item p { color: #aaa; }
+
+/* Пустое состояние и сообщение об ошибке */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #7a5533;
+    font-size: 1.1rem;
+}
+body.dark-theme .empty-state { color: #b8997a; }
+
+/* ════════════════════════════════════════════════════════
+   НАВИГАЦИОННАЯ ПАНЕЛЬ
+   ════════════════════════════════════════════════════════ */
+
+/* Бургер-кнопка */
+.hamburger-menu {
+    font-size: 28px !important;
+    cursor: pointer;
+    position: fixed;
+    top: calc(10vh + 14px);
+    left: 12px;
+    z-index: 1002;
+    background: rgba(92,35,35,0.85);
+    color: #fff8f0;
+    padding: 4px 12px;
+    border-radius: 8px;
+    line-height: 1;
+    transition: background 0.2s;
+    user-select: none;
+}
+.hamburger-menu:hover { background: rgba(92,35,35,1); }
+
+body.dark-theme .hamburger-menu {
+    background: rgba(60,60,60,0.9);
+}
+
+/* Сама панель */
+.nav-panel {
+    background: blanchedalmond;
+    border-right: 6px solid rgb(92,35,35);
+    flex-shrink: 0;
+    overflow-y: auto;
+}
+
+body.dark-theme .nav-panel {
+    background: #2d2d2d !important;
+    border-right-color: #4a4a4a !important;
+}
+
+/* Профиль внутри панели */
+.nav-panel .profile-vision {
+    background: rgb(136,118,118);
+    margin: 44px 24px 16px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+}
+body.dark-theme .nav-panel .profile-vision { background: #3a3a3a; }
+
+.nav-panel .profile-vision .profile-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+}
+
+.nav-panel .profile-vision .nick {
+    font-size: 1.4rem;
+    color: white;
+    margin-top: 8px;
+}
+body.dark-theme .nav-panel .profile-vision .nick { color: #e0e0e0; }
+
+/* Кнопки навигации */
+.nav-panel .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 8px;
+}
+
+.nav-panel .buttons button {
+    font-family: 'Monotype Corsiva', cursive;
+    font-size: 1.25rem;
+    background-color: #d2b48c;
+    clip-path: polygon(0% 0%, 100% 0%, 92% 50%, 100% 100%, 0% 100%);
+    border: none;
+    cursor: pointer;
+    padding: 12px 20px;
+    text-align: left;
+    color: #2c1810;
+    font-weight: bold;
+    transition: background-color 0.2s, color 0.2s;
+}
+.nav-panel .buttons button:hover { background-color: #c3a078; }
+
+body.dark-theme .nav-panel .buttons button {
+    background-color: #3a3a3a !important;
+    background-image: none !important;
+    color: #e0e0e0 !important;
+    border-bottom: 1px solid #444 !important;
+    clip-path: polygon(0% 0%, 100% 0%, 92% 50%, 100% 100%, 0% 100%);
+}
+body.dark-theme .nav-panel .buttons button:hover {
+    background-color: #4a4a4a !important;
+}
+
+/* Кнопка закрытия панели */
+.nav-close-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    background: #c0392b;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 1001;
+    line-height: 1;
+    transition: background 0.2s;
+}
+.nav-close-btn:hover { background: #e74c3c; }
+
+/* ════════════════════════════════════════════════════════
+   МОБИЛЬНАЯ АДАПТАЦИЯ
+   ════════════════════════════════════════════════════════ */
+
+@media (max-width: 600px) {
+    .reading-mode { padding: 16px; }
+    .fanfic-full-title { padding-left: 12px; }
+    .fanfic-content { font-size: 0.97rem; }
+
+    .fanfic-item > div { flex-direction: column !important; }
+    .fanfic-item button { margin-top: 10px; width: 100%; }
+
+    .header-actions { width: 100%; justify-content: flex-end; }
+
+    .filter-row { flex-direction: column; }
+    .filter-input, .filter-select, .filter-clear-btn { width: 100%; }
+}
